@@ -15,8 +15,8 @@ Repositorio destinado al trabajo práctico #4 de la parte practica de la materia
 Vamos a necesitar un SO Linux instalado con sus fuentes o al menos los headers. La descarga puede demorar algunos minutos, dependiendo del BW de descarga de su conexión a internet.
 Por otro lado, en esta primera parte vamos a trabajar con los siguientes programas fuentes y make files.
 
-`fork https://gitlab.com/sistemas-de-computacion-unc/kenel-modules.git `
-` git clone (su propia url… empieza con SU nombre de usuario) `
+`fork https://gitlab.com/sistemas-de-computacion-unc/kenel-modules.git `  
+` git clone (su propia url… empieza con SU nombre de usuario) `  
 ` sudo apt-get install build-essential checkinstall kernel-package linux-source `
 
 ## Desafios
@@ -30,12 +30,12 @@ Debe tener respuestas precisas a las siguientes preguntas y sentencias:
 ¿ Qué funciones tiene disponible un programa y un módulo ?
 Espacio de usuario o espacio del kernel.
 Espacio de datos.
-Drivers. Investigar contenido de /dev.
-Bibliografía
-https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/signing-kernel-modules-for-secure-boot_managing-kernel-modules
-https://sysprog21.github.io/lkmpg/#what-is-a-kernel-module 
-https://opensource.com/article/19/10/strace 
-https://docs.google.com/presentation/d/1BYES6Zkfx5K85REWyXsFeW-VngBLOzlDzaYCsTVoc0Y/edit#slide=id.g724a4c87a0_0_5 
+Drivers. Investigar contenido de /dev.  
+## Bibliografía
+https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/signing-kernel-modules-for-secure-boot_managing-kernel-modules  
+https://sysprog21.github.io/lkmpg/#what-is-a-kernel-module   
+https://opensource.com/article/19/10/strace   
+https://docs.google.com/presentation/d/1BYES6Zkfx5K85REWyXsFeW-VngBLOzlDzaYCsTVoc0Y/edit#slide=id.g724a4c87a0_0_5   
 
 ## Resolucion
 - En primer lugar se ingresa a la pagina https://gitlab.com/sistemas-de-computacion-unc/kenel-modules.git y se realiza un fork de ella
