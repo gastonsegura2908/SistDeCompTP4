@@ -242,4 +242,33 @@ signature:      8D:60:20:7C:EC:D7:FA:9A:EE:BC:83:20:32:9D:32:B1:2B:6B:A6:F8:
 		1D:C8:03:D6:B0:41:2E:1C:9B:60:CB:C1:14:4F:C6:4D:75:99:DE:A7:
 		C9:38:13:81:C2:55:9A:F0:0D:29:EE:F6:01:5D:08:6C:B0:79:4E:57:
 		31:3E:EA:CF:86:5C:CF:68:B5:F0:30:0D `
-  
+
+Muestra información sobre el módulo del kernel des_generic.ko. Aquí te explico cada campo de la salida:
+filename: Este es el nombre del archivo del módulo del kernel.
+alias: Estos son los alias del módulo del kernel. Los alias son nombres alternativos que se pueden usar para referirse al módulo.
+author: Este es el autor del módulo del kernel.
+description: Esta es una breve descripción del módulo del kernel.
+license: Esta es la licencia bajo la cual se distribuye el módulo del kernel.
+srcversion: Esta es la versión del código fuente del módulo del kernel.
+depends: Esta es una lista de otros módulos del kernel de los que depende este módulo.
+retpoline: Este campo indica si el módulo del kernel está compilado con protecciones Retpoline para mitigar la vulnerabilidad de ejecución especulativa del procesador.
+intree: Este campo indica si el módulo del kernel está incluido en el árbol de código fuente del kernel.
+name: Este es el nombre del módulo del kernel.
+vermagic: Esta es una cadena que contiene la versión del kernel, el tipo de CPU, el estado de SMP (Symmetric MultiProcessing), y otras opciones que deben coincidir exactamente con el kernel en ejecución para que el módulo pueda ser cargado.
+sig_id: Este campo indica el tipo de firma digital utilizada para firmar el módulo del kernel.
+signer: Este campo indica la entidad que firmó el módulo del kernel.
+sig_key: Esta es la clave pública utilizada para verificar la firma digital del módulo del kernel.
+sig_hashalgo: Este campo indica el algoritmo de hash utilizado para generar la firma digital del módulo del kernel.
+signature: Esta es la firma digital del módulo del kernel.
+
+- ¿Qué diferencias se pueden observar entre los dos modinfo ? 
+Las diferencias entre los dos comandos modinfo que has ejecutado son las siguientes:
+Módulo del kernel: El primer comando modinfo mimodulo.ko muestra información sobre el módulo del kernel personalizado mimodulo.ko, mientras que el segundo comando modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko muestra información sobre el módulo del kernel estándar des_generic.ko que se encuentra en la ruta /lib/modules/$(uname -r)/kernel/crypto/.
+Información del módulo: La información proporcionada por los dos comandos modinfo es diferente porque los dos módulos del kernel son diferentes. Por ejemplo, el autor, la descripción, la licencia, la versión del código fuente, las dependencias, el nombre y la firma digital del módulo son diferentes para mimodulo.ko y des_generic.ko.
+Dependencias del módulo: El módulo mimodulo.ko no tiene dependencias, mientras que el módulo des_generic.ko depende del módulo libdes.
+Alias del módulo: El módulo mimodulo.ko no tiene alias, mientras que el módulo des_generic.ko tiene varios alias.
+Firma digital del módulo: El módulo mimodulo.ko no tiene una firma digital, mientras que el módulo des_generic.ko tiene una firma digital.
+
+- ¿Qué divers/modulos estan cargados en sus propias pc? 
+Para ver esto se debe colocar el comando ` lsmod `
+En la carpeta "ModulosIntegrantes" se encuentra un .txt por cada uno de los integrantes, con las salidas de sus pcs
