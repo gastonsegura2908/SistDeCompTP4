@@ -269,6 +269,10 @@ Dependencias del módulo: El módulo mimodulo.ko no tiene dependencias, mientras
 Alias del módulo: El módulo mimodulo.ko no tiene alias, mientras que el módulo des_generic.ko tiene varios alias.
 Firma digital del módulo: El módulo mimodulo.ko no tiene una firma digital, mientras que el módulo des_generic.ko tiene una firma digital.
 
-- ¿Qué divers/modulos estan cargados en sus propias pc? 
+- ¿Qué divers/modulos estan cargados en sus propias pc? (FALTA)
 Para ver esto se debe colocar el comando ` lsmod `
 En la carpeta "ModulosIntegrantes" se encuentra un .txt por cada uno de los integrantes, con las salidas de sus pcs
+
+- ¿cuales no están cargados pero están disponibles? que pasa cuando el driver de un dispositivo no está disponible.
+Para saber qué módulos del kernel están disponibles en tu sistema, puedes usar el comando ls -R /lib/modules/$(uname -r)
+Para saber qué módulos del kernel están actualmente cargados en tu sistema, puedes usar el comando lsmod
