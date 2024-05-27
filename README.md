@@ -30,9 +30,15 @@ Para usar CheckInstall, sigue estos pasos:
 5. Finalmente, obtendrás la última pantalla confirmando todos los detalles de tu paquete. Un aspecto importante de esta pantalla es que puedes establecer dependencias para tu paquete.
 
 - Usarlo para empaquetar un hello world ? (FALTA)
-Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados.
+- Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados:  A continuacion se colocan algunas medidas de seguridad para realizar:
+SELinux/AppArmor: Configurar y activar SELinux o AppArmor para aplicar políticas de control de acceso que restrinjan las operaciones de los procesos y módulos del kernel.
+Auditoría y Monitoreo: Implementar herramientas de auditoría como auditd para monitorear y registrar eventos críticos relacionados con el kernel y los módulos.
+Control de Integridad:Utilizar IMA/EVM (Integrity Measurement Architecture/Extended Verification Module) para asegurar la integridad de los archivos y binarios del sistema, incluyendo módulos del kernel.
+Actualización Regular del Kernel y Módulos: Mantener el kernel y los módulos actualizados para protegerse contra vulnerabilidades conocidas. Utiliza herramientas como yum, dnf, o apt para actualizar regularmente.
+Uso de Módulos Firmados por el Distribuidor: Siempre que sea posible, utiliza módulos del kernel proporcionados y firmados por la distribución (Red Hat, Ubuntu, etc.) ya que estos han sido verificados y son confiables.
+Configuración de Políticas de Carga de Módulos: Modificar el archivo /etc/modprobe.d/ para controlar qué módulos pueden ser cargados. Se pueden establecer políticas estrictas para restringir módulos no deseados.
 
-### Desafío #2  (FALTA)
+### Desafío #2  
 Debe tener respuestas precisas a las siguientes preguntas y sentencias:
 ¿ Qué funciones tiene disponible un programa y un módulo ?
 Espacio de usuario o espacio del kernel.
@@ -40,10 +46,18 @@ Espacio de datos.
 Drivers. Investigar contenido de /dev.  
 
 RESPUESTAS
-- ¿ Qué funciones tiene disponible un programa y un módulo ?:
+- Qué funciones tiene disponible un programa y un módulo ?Un programa en el espacio de usuario tiene acceso a un conjunto limitado de funciones del sistema operativo a través de las llamadas al sistema. Estas funciones incluyen operaciones de E/S (como leer y escribir en archivos), operaciones de red, operaciones de memoria (como asignar y liberar memoria), y otras operaciones del sistema o Un módulo del kernel, por otro lado, se ejecuta en el espacio del kernel y tiene acceso a las funciones internas del kernel y a las interfaces de hardware. Esto incluye funciones para interactuar con los controladores de dispositivos, manipular estructuras de datos del kernel, registrar controladores de interrupciones, y más.perativo. Sin embargo, un programa no puede acceder directamente al hardware ni a las regiones de memoria del kernel.
 - Espacio de usuario o espacio del kernel: El espacio del kernel se refiere a la memoria que el kernel del sistema operativo tiene reservada para su funcionamiento. Aquí es donde el kernel mantiene sus estructuras de datos y ejecuta código de nivel de sistema operativo.En contraste, el espacio de usuario es la memoria reservada para la ejecución de aplicaciones y procesos del usuario. El kernel protege su espacio de memoria para evitar que los procesos del usuario interfieran con su funcionamiento.
-- Espacio de datos:
-- Drivers. Investigar contenido de /dev:
+- Espacio de datos: Es una región de memoria asignada por el sistema operativo para almacenar las variables y los datos de ejecución de un programa. Cuando un programa se ejecuta, el sistema operativo crea un espacio de datos para ese programa donde puede almacenar sus variables y otros datos.
+- Drivers. Investigar contenido de /dev: Device driver(controlador de dispositivo) es una clase de modulo que proporciona funcionalidad para hardware como un puerto serie. En Unix, cada pieza de hardware está representada por un archivo ubicado en /dev llamado device file(archivo de dispositivo) que proporciona los medios para comunicarse con el hardware1. El controlador de dispositivo proporciona la comunicación en nombre de un programa de usuario1. Esto significa que los controladores de dispositivos actúan como un traductor entre el hardware y los programas o sistemas operativos que lo utilizan1. Permiten que el software interactúe con el hardware sin necesidad de saber cómo funciona el hardware. Con el comando ` ls /dev ` podemos listar todos los archivos en el directorio, por ejemplo al ejecutar ` ls -l /dev/sda ` se obtiene ` brw-rw---- 1 root disk 8, 0 may 27 17:26 /dev/sda ` : 
+brw-rw----: Estos son los permisos del archivo. El primer carácter b indica que /dev/sda es un archivo de dispositivo de bloque. Los siguientes nueve caracteres representan los permisos del archivo para el propietario, el grupo y otros, respectivamente. En este caso, rw- significa que el propietario tiene permisos de lectura y escritura, rw- significa que el grupo tiene permisos de lectura y escritura, y --- significa que otros no tienen permisos.
+1: Este es el número de enlaces al archivo. Para los archivos de dispositivo, esto generalmente será 1.
+root disk: Estos son el propietario y el grupo del archivo, respectivamente. En este caso, el propietario es root y el grupo es disk.
+8, 0: Estos son los números mayor y menor del dispositivo, respectivamente. Estos números son importantes para el sistema operativo ya que utiliza estos números para identificar el dispositivo de hardware específico que este archivo representa.
+may 27 17:26: Esta es la última vez que se accedió o modificó el archivo.
+/dev/sda: Este es el nombre del archivo de dispositivo.
+
+
 
 ## Bibliografía
 https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/signing-kernel-modules-for-secure-boot_managing-kernel-modules  
@@ -283,8 +297,33 @@ Cómo lo maneja un programa: Desde el punto de vista del programa, un Segmentati
 
 ### firmar un módulo de kernel (FALTA)
 ¿Se animan a intentar firmar un módulo de kernel ? y documentar el proceso ?  
+Firmar Módulos del Kernel
 
-### secure boot  (VER)
+1- Habilitar Secure Boot: Secure Boot debe estar habilitado en el firmware UEFI. Esto asegura que solo se carguen los binarios firmados y verificados durante el arranque del sistema.
+
+2- Generar Claves de Firma:
+Crear un par de claves (pública y privada): Utiliza openssl para generar un par de claves. La clave privada se usará para firmar los módulos y la clave pública se inscribirá en el firmware UEFI.
+Ejemplo de generación de claves:
+sh
+Copy code
+openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=My Kernel Module Signing Key/"
+
+3- Inscribir la Clave Pública:
+Utiliza la utilidad mokutil para inscribir la clave pública en el sistema UEFI:
+sh
+Copy code
+sudo mokutil --import MOK.der
+Reboot y sigue las instrucciones en pantalla para completar la inscripción.
+
+4- Firmar los Módulos del Kernel:
+Una vez inscritas las claves, los módulos del kernel deben ser firmados usando la clave privada.
+Ejemplo de firma de un módulo:
+sh
+Copy code
+sudo /usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 MOK.priv MOK.der /path/to/module.ko
+
+
+### secure boot 
 - ¿Que pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mi? 
 Secure Boot es una característica de seguridad que verifica que cada pieza de software tiene una firma válida antes de permitir que se ejecute3. Esto incluye el sistema operativo, los controladores de dispositivos y los módulos del kernel3.
 Si tu compañero tiene Secure Boot habilitado e intenta cargar un módulo firmado por ti, el resultado dependerá de si la clave pública correspondiente a tu firma privada ha sido añadida al almacén de claves del sistema en su máquina12.
