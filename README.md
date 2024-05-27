@@ -29,10 +29,10 @@ Para usar CheckInstall, sigue estos pasos:
 4. Luego, se te pedirá una descripción. Esto es lo que se verá en lugares como el campo Resumen al mostrar la información del paquete.
 5. Finalmente, obtendrás la última pantalla confirmando todos los detalles de tu paquete. Un aspecto importante de esta pantalla es que puedes establecer dependencias para tu paquete.
 
-- Usarlo para empaquetar un hello world ? 
+- Usarlo para empaquetar un hello world ? (FALTA)
 Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados.
 
-### Desafío #2
+### Desafío #2  (FALTA)
 Debe tener respuestas precisas a las siguientes preguntas y sentencias:
 ¿ Qué funciones tiene disponible un programa y un módulo ?
 Espacio de usuario o espacio del kernel.
@@ -44,49 +44,7 @@ https://sysprog21.github.io/lkmpg/#what-is-a-kernel-module
 https://opensource.com/article/19/10/strace   
 https://docs.google.com/presentation/d/1BYES6Zkfx5K85REWyXsFeW-VngBLOzlDzaYCsTVoc0Y/edit#slide=id.g724a4c87a0_0_5   
 
-## Resolucion
-- En primer lugar se ingresa a la pagina https://gitlab.com/sistemas-de-computacion-unc/kenel-modules.git y se realiza un fork de ella
-- Luego se realiza el clone: ` git clone  `
-- 
-
-# Pasos 
-
-cd part1
-make
-sudo insmod mimodulo.ko
-sudo dmesg
-lsmod | grep mod
-
-[67375.506122] mimodulo: loading out-of-tree module taints kernel.
-[67375.506166] mimodulo: module verification failed: signature and/or required key missing - tainting kernel
-[67375.506348] Modulo cargado en el kernel.
-
-
-sudo rmmod mimodulo
-sudo dmsg
-lsmod | grep mod
-
-cat /proc/modules  | grep mod
-
-mimodulo 16384 0 - Live 0xffffffffc097e000 (OE)
-
-
-
-modinfo mimodulo.ko 
-modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko
-
-¿Qué diferencias se pueden observar entre los dos modinfo ? 
-¿Qué divers/modulos estan cargados en sus propias pc? comparar las salidas con las computadoras de cada integrante del grupo. Expliquen las diferencias. Carguen un txt con la salida de cada integrante en el repo y pongan un diff en el informe.
-¿cuales no están cargados pero están disponibles? que pasa cuando el driver de un dispositivo no está disponible. 
-Correr hwinfo en una pc real con hw real y agregar la url de la información de hw en el reporte. 
-¿Qué diferencia existe entre un módulo y un programa  ? 
-¿Cómo puede ver una lista de las llamadas al sistema que realiza un simple helloworld en c?
-¿Que es un segmentation fault? como lo maneja el kernel y como lo hace un programa?
-¿Se animan a intentar firmar un módulo de kernel ? y documentar el proceso ?  https://askubuntu.com/questions/770205/how-to-sign-kernel-modules-with-sign-file
-Agregar evidencia de la compilación, carga y descarga de su propio módulo imprimiendo el nombre del equipo en los registros del kernel. 
-¿Que pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mi? 
-
-# PASOS - RESOLUCION
+## PASOS - RESOLUCION
 - En primer lugar ejecutamos make en la carpeta correspondiente:
 ` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ make `
 A partir de ejecutar este comando se generan los siguientes archivos:
@@ -261,7 +219,7 @@ sig_key: Esta es la clave pública utilizada para verificar la firma digital del
 sig_hashalgo: Este campo indica el algoritmo de hash utilizado para generar la firma digital del módulo del kernel.
 signature: Esta es la firma digital del módulo del kernel.
 
-- ¿Qué diferencias se pueden observar entre los dos modinfo ? 
+### ¿Qué diferencias se pueden observar entre los dos modinfo ? 
 Las diferencias entre los dos comandos modinfo que has ejecutado son las siguientes:
 Módulo del kernel: El primer comando modinfo mimodulo.ko muestra información sobre el módulo del kernel personalizado mimodulo.ko, mientras que el segundo comando modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko muestra información sobre el módulo del kernel estándar des_generic.ko que se encuentra en la ruta /lib/modules/$(uname -r)/kernel/crypto/.
 Información del módulo: La información proporcionada por los dos comandos modinfo es diferente porque los dos módulos del kernel son diferentes. Por ejemplo, el autor, la descripción, la licencia, la versión del código fuente, las dependencias, el nombre y la firma digital del módulo son diferentes para mimodulo.ko y des_generic.ko.
@@ -269,10 +227,51 @@ Dependencias del módulo: El módulo mimodulo.ko no tiene dependencias, mientras
 Alias del módulo: El módulo mimodulo.ko no tiene alias, mientras que el módulo des_generic.ko tiene varios alias.
 Firma digital del módulo: El módulo mimodulo.ko no tiene una firma digital, mientras que el módulo des_generic.ko tiene una firma digital.
 
-- ¿Qué divers/modulos estan cargados en sus propias pc? (FALTA)
+### ¿Qué drivers/modulos estan cargados en sus propias pc? (FALTA)
 Para ver esto se debe colocar el comando ` lsmod `
 En la carpeta "ModulosIntegrantes" se encuentra un .txt por cada uno de los integrantes, con las salidas de sus pcs
 
-- ¿cuales no están cargados pero están disponibles? que pasa cuando el driver de un dispositivo no está disponible.
+### ¿cuales no están cargados pero están disponibles? que pasa cuando el driver de un dispositivo no está disponible.
 Para saber qué módulos del kernel están disponibles en tu sistema, puedes usar el comando ls -R /lib/modules/$(uname -r)
 Para saber qué módulos del kernel están actualmente cargados en tu sistema, puedes usar el comando lsmod
+Para realizar esta actividad se ha realizado un script de bash(llamado "scriptPreguntaCargNoDisp.sh") que encuentra cuales son los modulos estan disponibles pero no guardados.Este script da como resultado una enorme cantidad de modulos, se adjunta una captura de una pequeñisima parte de todo lo obtenido:
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/2299608c-d3eb-496c-84f9-c1bf4f73252d)
+Cuando el driver de un dispositivo no está disponible, pueden ocurrir varios problemas1:
+El dispositivo puede no ser reconocido por el sistema operativo, lo que significa que no podrás utilizarlo1.
+Puedes experimentar problemas de rendimiento, como una conexión de internet lenta, falta de calidad en el sonido o problemas de visualización en la pantalla1.
+Existen varias soluciones para resolver este problema:
+Actualizar el controlador del dispositivo: A veces, el problema puede ser causado porque el controlador del dispositivo no está actualizado2.
+Desinstalar y reinstalar el controlador: Si el controlador está dañado o no funciona correctamente, desinstalarlo y luego reinstalarlo puede resolver el problema3.
+
+### hwinfo (FALTA)
+Correr hwinfo en una pc real con hw real y agregar la url de la información de hw en el reporte. 
+
+### ¿Qué diferencia existe entre un módulo y un programa? 
+Las diferencias que podemos notas son las siguiente:
+- Función: Un programa es una aplicación que se ejecuta en el sistema operativo para realizar una tarea específica, como procesar texto o navegar por la web. Por otro lado, un módulo es un componente de software que realiza una función específica dentro de un sistema mayor12. Por ejemplo, un driver es un tipo de módulo que permite que el sistema operativo se comunique con un dispositivo de hardware3.
+- Interacción con el sistema operativo: Los programas invocan funciones específicas del sistema operativo para realizar sus tareas. En cambio, los módulos, como los drivers, son invocados por el sistema operativo para interactuar con el hardware3.
+- Ubicación en el sistema: Los programas suelen estar almacenados en el disco duro y se cargan en la memoria cuando se ejecutan. Los módulos, por otro lado, pueden ser cargados y descargados dinámicamente en el sistema, de manera que solo están activos en memoria cuando se les necesita12.
+-Reutilización de código: En la programación modular, los módulos permiten reutilizar código y compartir funciones entre programas12. En cambio, aunque un programa puede contener funciones reutilizables, es una entidad independiente que se ejecuta para realizar una tarea específica.
+
+### ¿Cómo puede ver una lista de las llamadas al sistema que realiza un simple helloworld en c? (FALTA)
+
+### ¿Que es un segmentation fault? como lo maneja el kernel y como lo hace un programa?
+Cuando se ejecuta el programa y el sistema de informes de su sistema lanza una "violación de segmentación", significa que su programa ha intentado acceder a un área de memoria a la cual no le está permitido el acceso. En otras palabras, se trató de acceder a una parte de la memoria que está más allá de los límites que el sistema operativo (Unix GNU/Linux ect) ha asignado para su programa.
+Algunas causas comunes de este problema son:
+- El uso incorrecto de los operadores "&" (dirección/address of) y "*" (indireccion/dereferencing)
+- Cadena de control de formato incorrecto en declaraciones printf o scanf
+- olvidarse de usar "&" en los argumentos de scanf 
+- Acceso a más allá de los límites de una matriz/vector o similar
+- Error al inicializar un puntero antes de acceder a él
+- Tratar de acceder a una parte de la memoria de manera inadecuada aún estando accesible para su programa.
+- Intentar acceder a un objeto o variable que ha sido borrado de la memoria
+
+Cómo lo maneja el kernel: Cuando ocurre un Segmentation Fault, el sistema operativo recibe una interrupción del hardware2. El kernel del sistema operativo debe determinar la causa del error y si se puede hacer algo al respecto2. En algunos casos, como las referencias a punteros nulos, lo mejor que puede hacer el kernel es informar a la aplicación que ha ocurrido un error2.
+
+Cómo lo maneja un programa: Desde el punto de vista del programa, un Segmentation Fault generalmente resulta en que el programa se detenga inmediatamente y se genere un informe de error1. Los programadores pueden utilizar herramientas de depuración, como gdb, para examinar el estado del programa en el momento del error y determinar qué parte del código causó el problema3.
+
+### firmar un módulo de kernel (FALTA)
+¿Se animan a intentar firmar un módulo de kernel ? y documentar el proceso ?  
+
+### secure boot  (FALTA)
+¿Que pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mi? 
