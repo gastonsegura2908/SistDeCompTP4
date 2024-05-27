@@ -38,11 +38,20 @@ Debe tener respuestas precisas a las siguientes preguntas y sentencias:
 Espacio de usuario o espacio del kernel.
 Espacio de datos.
 Drivers. Investigar contenido de /dev.  
+
+RESPUESTAS
+- ¿ Qué funciones tiene disponible un programa y un módulo ?:
+- Espacio de usuario o espacio del kernel: El espacio del kernel se refiere a la memoria que el kernel del sistema operativo tiene reservada para su funcionamiento. Aquí es donde el kernel mantiene sus estructuras de datos y ejecuta código de nivel de sistema operativo.En contraste, el espacio de usuario es la memoria reservada para la ejecución de aplicaciones y procesos del usuario. El kernel protege su espacio de memoria para evitar que los procesos del usuario interfieran con su funcionamiento.
+- Espacio de datos:
+- Drivers. Investigar contenido de /dev:
+
 ## Bibliografía
 https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/signing-kernel-modules-for-secure-boot_managing-kernel-modules  
 https://sysprog21.github.io/lkmpg/#what-is-a-kernel-module   
 https://opensource.com/article/19/10/strace   
 https://docs.google.com/presentation/d/1BYES6Zkfx5K85REWyXsFeW-VngBLOzlDzaYCsTVoc0Y/edit#slide=id.g724a4c87a0_0_5   
+
+
 
 ## PASOS - RESOLUCION
 - En primer lugar ejecutamos make en la carpeta correspondiente:
@@ -253,7 +262,9 @@ Las diferencias que podemos notas son las siguiente:
 - Ubicación en el sistema: Los programas suelen estar almacenados en el disco duro y se cargan en la memoria cuando se ejecutan. Los módulos, por otro lado, pueden ser cargados y descargados dinámicamente en el sistema, de manera que solo están activos en memoria cuando se les necesita12.
 -Reutilización de código: En la programación modular, los módulos permiten reutilizar código y compartir funciones entre programas12. En cambio, aunque un programa puede contener funciones reutilizables, es una entidad independiente que se ejecuta para realizar una tarea específica.
 
-### ¿Cómo puede ver una lista de las llamadas al sistema que realiza un simple helloworld en c? (FALTA)
+### ¿Cómo puede ver una lista de las llamadas al sistema que realiza un simple helloworld en c? 
+Para esto, primero creamos un archivo que se llama "HelloWorld.c" , luego ejecutamos ` gcc -Wall -o hello hello.c `. Al archivo "hello" que obtenemos como resultado, lo ejecutamos con los comandos: ` strace ./hello `. Nos devuelve bastante codigo(se almacena en el repositorio en un archivo llamado "SyscallsHello.txt"), en el cual cada línea que se ve corresponde a una llamada al sistema.` Strace ` es un programa útil que le brinda detalles sobre qué llamadas al sistema realiza un programa, incluida qué llamada se realiza, cuáles son sus argumentos y qué devuelve. 
+En la penulta linea de codigo del archivo podemos observar un: ` write(1, "hello world", 11hello world)             = 11 ` que es lo que esta detras del "printf("hello world")" que se ve en el programa de C
 
 ### ¿Que es un segmentation fault? como lo maneja el kernel y como lo hace un programa?
 Cuando se ejecuta el programa y el sistema de informes de su sistema lanza una "violación de segmentación", significa que su programa ha intentado acceder a un área de memoria a la cual no le está permitido el acceso. En otras palabras, se trató de acceder a una parte de la memoria que está más allá de los límites que el sistema operativo (Unix GNU/Linux ect) ha asignado para su programa.
@@ -273,5 +284,9 @@ Cómo lo maneja un programa: Desde el punto de vista del programa, un Segmentati
 ### firmar un módulo de kernel (FALTA)
 ¿Se animan a intentar firmar un módulo de kernel ? y documentar el proceso ?  
 
-### secure boot  (FALTA)
-¿Que pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mi? 
+### secure boot  (VER)
+- ¿Que pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mi? 
+Secure Boot es una característica de seguridad que verifica que cada pieza de software tiene una firma válida antes de permitir que se ejecute3. Esto incluye el sistema operativo, los controladores de dispositivos y los módulos del kernel3.
+Si tu compañero tiene Secure Boot habilitado e intenta cargar un módulo firmado por ti, el resultado dependerá de si la clave pública correspondiente a tu firma privada ha sido añadida al almacén de claves del sistema en su máquina12.
+Si tu compañero intenta cargar un módulo firmado por ti, pero tu clave pública no ha sido añadida a su almacén de claves, el módulo no se cargará12. Esto se debe a que Secure Boot no puede verificar la firma del módulo12.
+Para que tu compañero pueda cargar el módulo firmado por ti, tendrías que proporcionarle tu clave pública12. Tu compañero tendría que añadir esta clave a su almacén de claves utilizando una herramienta como ` mokutil `. Una vez que tu clave pública esté en su almacén de claves, Secure Boot podrá verificar la firma de tu módulo y permitir que se cargue12.
