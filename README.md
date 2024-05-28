@@ -30,6 +30,7 @@ Para usar CheckInstall, sigue estos pasos:
 5. Finalmente, obtendrás la última pantalla confirmando todos los detalles de tu paquete. Un aspecto importante de esta pantalla es que puedes establecer dependencias para tu paquete.
 
 - Usarlo para empaquetar un hello world ? (FALTA)
+  Para realizar esto, vamos a utilizar el archivo llamado "HelloWorld.c" y un "Makefile". Luego ejecutar `checkinstall`
 - Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados:  A continuacion se colocan algunas medidas de seguridad para realizar:
 SELinux/AppArmor: Configurar y activar SELinux o AppArmor para aplicar políticas de control de acceso que restrinjan las operaciones de los procesos y módulos del kernel.
 Auditoría y Monitoreo: Implementar herramientas de auditoría como auditd para monitorear y registrar eventos críticos relacionados con el kernel y los módulos.
