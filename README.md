@@ -267,8 +267,12 @@ Existen varias soluciones para resolver este problema:
 Actualizar el controlador del dispositivo: A veces, el problema puede ser causado porque el controlador del dispositivo no está actualizado2.
 Desinstalar y reinstalar el controlador: Si el controlador está dañado o no funciona correctamente, desinstalarlo y luego reinstalarlo puede resolver el problema3.
 
-### hwinfo (FALTA)
-Correr hwinfo en una pc real con hw real y agregar la url de la información de hw en el reporte. 
+### hwinfo 
+CONSIGNA: Correr hwinfo en una pc real con hw real y agregar la url de la información de hw en el reporte. 
+En primer lugar, realizamos la instalacion con el comando `sudo apt install hwinfo` , luego ejecutamos `hwinfo`. Como nos devuelve mucha informacion, hacemos `hwinfo > hwinfo.txt` para almacenarla y verla de una mejor manera.
+Este txt es subido al drive como lo pide la consigna, aqui el link: [hwinfo.txt](https://drive.google.com/file/d/1Fl7qJL2dBHWLC2pBckQbaIGVLtf-Twwj/view?usp=drive_link)
+hwinfo es una herramienta de línea de comandos muy útil para obtener detalles sobre los componentes de hardware de tu sistema1. Se utiliza para sondear el hardware presente en el sistema2. Puede generar un registro de descripción general del sistema que luego puede ser utilizado para soporte2.
+Muestra información sobre la mayoría de las unidades de hardware, incluyendo CPU, RAM, tarjetas gráficas, controladores USB, entre otros1. Además, hwinfo puede ser usado con varios parámetros de línea de comandos para crear informes de hardware en varios formatos como texto, CSV, XML.
 
 ### ¿Qué diferencia existe entre un módulo y un programa? 
 Las diferencias que podemos notas son las siguiente:
