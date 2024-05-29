@@ -20,14 +20,14 @@ Por otro lado, en esta primera parte vamos a trabajar con los siguientes program
 ### Desafío #1 
 - ¿Qué es checkinstall y para qué sirve?
 CheckInstall es una herramienta útil para sistemas operativos Unix-like que facilita la gestión de paquetes. Esta herramienta se utiliza principalmente cuando necesitas instalar un programa desde el código fuente.
-Cuando instalas un programa de esta manera, normalmente el proceso implica ejecutar `make install`. Sin embargo, este método tiene algunas desventajas, especialmente cuando necesitas actualizar o desinstalar ese programa.
-Aquí es donde CheckInstall puede ser de gran ayuda. En lugar de `make install`, usarías `checkinstall`, y esta herramienta se encargaría del resto. CheckInstall rastrea los cambios en los archivos durante la instalación y genera paquetes binarios a partir de tus tarballs. Con CheckInstall, puedes generar un paquete RPM, deb o Slackware que se puede portar entre sistemas para una fácil instalación y eliminación.
-Para usar CheckInstall, sigue estos pasos:
-1. Ejecuta los comandos `./configure` y `make` como lo harías normalmente para compilar el programa desde el código fuente.
-2. En lugar de `make install`, ejecuta `checkinstall`.
-3. CheckInstall te preguntará si deseas crear un directorio para guardar alguna documentación que pueda ser necesaria para el empaquetado posterior. Acepta el valor predeterminado de Sí y continúa.
-4. Luego, se te pedirá una descripción. Esto es lo que se verá en lugares como el campo Resumen al mostrar la información del paquete.
-5. Finalmente, obtendrás la última pantalla confirmando todos los detalles de tu paquete. Un aspecto importante de esta pantalla es que puedes establecer dependencias para tu paquete.
+Cuando se instala un programa de esta forma, normalmente el proceso implica ejecutar `make install`. Sin embargo, este método tiene algunas desventajas, especialmente cuando es necesario actualizar o desinstalar ese programa.
+Aquí es donde CheckInstall puede ser de gran ayuda. En lugar de `make install`, se usa `checkinstall`, y esta herramienta se encarga del resto. CheckInstall rastrea los cambios en los archivos durante la instalación y genera paquetes binarios a partir de los tarballs. Con CheckInstall, se puede generar un paquete RPM, deb o Slackware que se puede portar entre sistemas para una fácil instalación y eliminación.
+Para usar CheckInstall, se debe seguir los siguientes pasos:
+1. Ejecutar los comandos `./configure` y `make` como se hace normalmente para compilar el programa desde el código fuente.
+2. En lugar de `make install`, se ejecuta `checkinstall`.
+3. CheckInstall preguntará si se quiere crear un directorio para guardar alguna documentación que pueda ser necesaria para el empaquetado posterior. Aceptar el valor predeterminado de Sí y continuar.
+4. Luego, pedirá una descripción. Esto es lo que se verá en lugares como el campo Resumen al mostrar la información del paquete.
+5. Finalmente, se obtiene la última pantalla confirmando todos los detalles del paquete. Un aspecto importante de esta pantalla es que puede establecer dependencias para el paquete.
 
 - Usarlo para empaquetar un hello world ? 
   Para realizar esto, vamos a utilizar el archivo llamado "Hello.c" y un "Makefile". Primero vamos a ejecutar `make` para que se realice todo lo que esta dentro del makefile, y luego `sudo checkinstall`. Al hacer esto obtenemos como resultado 3 archivos: hello , description-pak, y arch_20240528-1_amd64.deb
