@@ -308,6 +308,42 @@ Cómo lo maneja un programa: Desde el punto de vista del programa, un Segmentati
 
 ### firmar un módulo de kernel (FALTA)
 ¿Se animan a intentar firmar un módulo de kernel ? y documentar el proceso ?  
+https://askubuntu.com/questions/770205/how-to-sign-kernel-modules-with-sign-file
+Agregar evidencia de la compilación, carga y descarga de su propio módulo imprimiendo el nombre del equipo en los registros del kernel. 
+
+- En primerlugar instalamos los modulos: openssl , sign-file , mokutil y keyctl
+- Luego vamos a Generar un par de claves X.509, ya que son Necesarias una clave privada para firmar el módulo y una clave pública para verificar la firma. Para ello utilizando OpenSSL, vamos a seguir estos pasos:
+  1- Genera una clave privada: La clave privada se utiliza para firmar el módulo. Puedes generar una clave privada RSA de 2048 bits con el siguiente comando:`openssl genrsa -out private.key 2048`
+  2- Crea un certificado X.509: El certificado X.509 contiene tu clave pública y se utiliza para verificar la firma. Puedes crear un certificado X.509 que sea válido por 365 días con el siguiente comando: `openssl req -new -x509 -key private.key -out publickey.cer -days 365`. Este comando te pedirá que ingreses información que se incorporará en tu solicitud de certificado. Deberás proporcionar detalles como el nombre de tu país (código de 2 letras), el nombre de tu estado o provincia, el nombre de tu localidad (por ejemplo, ciudad), el nombre de tu organización (por ejemplo, empresa), el nombre de tu unidad organizativa (por ejemplo, sección), el nombre común (por ejemplo, el nombre de dominio completamente calificado de tu servidor o tu nombre) y tu dirección de correo electrónico.
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/fe0a2391-ca90-4f73-89bc-3b12fec8c5cb)
+Para verificar que los dos pasos se realizaron correctamente, ejecutamos primero `openssl rsa -check -in private.key` para verificar la validez de la clave privada.
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/90ec884a-9031-4fff-b5cc-903f0141b741)
+luego `openssl x509 -in publickey.cer -text -noout` para Verificar el certificado X.509
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/c0979bb4-7101-480e-9675-a27b4d1e60db)
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/d72fe4c9-4b38-4419-ad9f-8808e4af0251)
+y por ultimo `openssl x509 -in publickey.cer -noout -pubkey openssl rsa -in private.key -pubout` para Verificar la correspondencia entre la clave privada y el certificado: La clave pública contenida en la clave privada y el certificado debe ser la misma, lo cual se verifica al observar que Ambos comandos deben producen la misma salida.
+
+- El tercer paso es Firma el módulo: Usa la herramienta sign-file que viene con el código fuente del kernel para firmar el módulo. Necesitarás proporcionar la clave privada, la clave pública y el módulo del kernel que deseas firmar
+  1- en primer lugar se Ubica la herramienta sign-file: La herramienta sign-file se encuentra en el directorio scripts/ del código fuente del kernel de Linux1. En la mayoría de los sistemas, puedes encontrarla en /usr/src/linux-headers-$(uname -r)/scripts/
+  ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/aa7ef802-4554-4f75-bc3d-64a298c7981f)
+  2- Se procede a Firmar el módulo del kernel: Puedes firmar el módulo del kernel utilizando el siguiente comando: `sudo /usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 private.key publickey.cer /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko` (sha256 es el algoritmo de hash que se utiliza para la firma, private.key es tu clave privada, publickey.cer es tu clave pública y mimodulo.ko es el módulo del kernel que deseas firmar). "mimodulo.ko" es el modulo que forkeamos al inicio. Para verificar que se realizo de forma correcta la firma del modulo, puedes usar el comando modinfo. Este comando muestra información sobre un módulo del kernel Linux: `modinfo /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko`
+  ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/17962672-0a2b-4e8b-9e47-cf6e86513558)
+
+- El cuarto paso es Carga la clave pública en el sistema objetivo: Para que el kernel pueda verificar la firma del módulo, necesitas cargar la clave pública en el sistema. Puedes hacer esto con la herramienta mokutil
+  1- Asegúrate de que tu sistema esté utilizando el arranque seguro UEFI: Puedes verificar esto con el comando `efibootmgr -v`: luego de realizar este paso y al obtener algunas respuestas erroneas, se descubre que en el sistema utilizado para realizar este ejercicio, su sistema operativo no se inicia en modo UEFI, por lo tanto este paso no es necesario. En este caso, se pueden firmar los módulos y el sistema los reconocerá como seguros, aunque la seguridad proporcionada será menor en comparación con un sistema con UEFI Secure Boot habilitado.
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/0b6ba79e-eb0c-485c-907e-e13636a4336f)
+ Entonces lo que se realizan son estos pasos:
+  - Copia el módulo firmado al directorio apropiado: Por lo general, los módulos del kernel se almacenan en el directorio /lib/modules/$(uname -r)/kernel/. Deberías copiar tu módulo firmado a este directorio o a un subdirectorio apropiado dentro de él:
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5d30dbd0-567f-411d-92e6-3b8c92b2a145)
+luego al realizar el copiado del modulo:
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5db4b713-9e2b-436f-8f0e-5b23ac6f00ce)
+- siguiente paso:Registra el módulo con depmod: depmod es una utilidad que genera un archivo de dependencias para los módulos del kernel. Puedes usarlo para registrar tu módulo firmado con el sistema1. entonce ejecutamos:`gaston@gaston-Lenovo-ideapad-320-14IAP:/lib/modules/5.15.0-107-generic/kernel$ sudo depmod -a`
+- el ultimo paso es:Carga el módulo con modprobe o insmod: modprobe y insmod son utilidades que puedes usar para cargar módulos en el kernel1modprobe es generalmente preferible porque maneja las dependencias del módulo automáticamente
+- Para verificar si el modulo se cargo correctamente usamos lsmod y modinfo
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/9cdba381-7e7c-4138-aa06-86350ede40a9)
+
+
+
 Firmar Módulos del Kernel
 
 1- Habilitar Secure Boot: Secure Boot debe estar habilitado en el firmware UEFI. Esto asegura que solo se carguen los binarios firmados y verificados durante el arranque del sistema.
