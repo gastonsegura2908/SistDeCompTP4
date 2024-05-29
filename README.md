@@ -29,8 +29,14 @@ Para usar CheckInstall, sigue estos pasos:
 4. Luego, se te pedirá una descripción. Esto es lo que se verá en lugares como el campo Resumen al mostrar la información del paquete.
 5. Finalmente, obtendrás la última pantalla confirmando todos los detalles de tu paquete. Un aspecto importante de esta pantalla es que puedes establecer dependencias para tu paquete.
 
-- Usarlo para empaquetar un hello world ? (FALTA)
-  Para realizar esto, vamos a utilizar el archivo llamado "HelloWorld.c" y un "Makefile". Luego ejecutar `checkinstall`
+- Usarlo para empaquetar un hello world ? 
+  Para realizar esto, vamos a utilizar el archivo llamado "Hello.c" y un "Makefile". Primero vamos a ejecutar `make` para que se realice todo lo que esta dentro del makefile, y luego `sudo checkinstall`. Al hacer esto obtenemos como resultado 3 archivos: hello , description-pak, y arch_20240528-1_amd64.deb
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/399c6e82-c48d-4758-b44a-9a68ffd4cf85)
+Que es lo que hicimos? En primer lugar se compila el archivo hello.c y genera un ejecutable llamado hello. luego install: Esta regla instala el programa en tu sistema. install -m 755 hello /usr/local/bin/hello copia el ejecutable hello al directorio /usr/local/bin con permisos 755 (lo que significa que el propietario puede leer, escribir y ejecutar, y los demás pueden leer y ejecutar).Luego ejecutamos sudo checkinstall, el cual En lugar de simplemente copiar los archivos directamente al sistema como make install, crea un paquete de software compatible con tu sistema de gestión de paquetes (como DEB para Debian/Ubuntu, RPM para Fedora/RHEL, etc.) y luego instala ese paquete. Esto tiene varias ventajas:
+Puedes desinstalar el paquete en cualquier momento utilizando tu sistema de gestión de paquetes (por ejemplo, apt, yum, dnf, etc.).
+Puedes distribuir el paquete a otros sistemas de la misma arquitectura y sistema operativo y instalarlo allí.
+Tienes un registro de los archivos que se instalaron y dónde se instalaron.
+  
 - Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados:  A continuacion se colocan algunas medidas de seguridad para realizar:
 SELinux/AppArmor: Configurar y activar SELinux o AppArmor para aplicar políticas de control de acceso que restrinjan las operaciones de los procesos y módulos del kernel.
 Auditoría y Monitoreo: Implementar herramientas de auditoría como auditd para monitorear y registrar eventos críticos relacionados con el kernel y los módulos.
