@@ -306,7 +306,7 @@ Cómo lo maneja el kernel: Cuando ocurre un Segmentation Fault, el sistema opera
 
 Cómo lo maneja un programa: Desde el punto de vista del programa, un Segmentation Fault generalmente resulta en que el programa se detenga inmediatamente y se genere un informe de error1. Los programadores pueden utilizar herramientas de depuración, como gdb, para examinar el estado del programa en el momento del error y determinar qué parte del código causó el problema3.
 
-### firmar un módulo de kernel (FALTA)
+### firmar un módulo de kernel
 ¿Se animan a intentar firmar un módulo de kernel ? y documentar el proceso ?  
 https://askubuntu.com/questions/770205/how-to-sign-kernel-modules-with-sign-file
 Agregar evidencia de la compilación, carga y descarga de su propio módulo imprimiendo el nombre del equipo en los registros del kernel. 
@@ -342,25 +342,6 @@ luego al realizar el copiado del modulo:
 - Para verificar si el modulo se cargo correctamente usamos lsmod y modinfo
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/9cdba381-7e7c-4138-aa06-86350ede40a9)
 
-
-
-Firmar Módulos del Kernel
-
-1- Habilitar Secure Boot: Secure Boot debe estar habilitado en el firmware UEFI. Esto asegura que solo se carguen los binarios firmados y verificados durante el arranque del sistema.
-
-2- Generar Claves de Firma:
-Crear un par de claves (pública y privada): Utiliza openssl para generar un par de claves. La clave privada se usará para firmar los módulos y la clave pública se inscribirá en el firmware UEFI.
-Ejemplo de generación de claves:
-sh
-Copy code
-openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=My Kernel Module Signing Key/"
-
-3- Inscribir la Clave Pública:
-Utiliza la utilidad mokutil para inscribir la clave pública en el sistema UEFI:
-sh
-Copy code
-sudo mokutil --import MOK.der
-Reboot y sigue las instrucciones en pantalla para completar la inscripción.
 
 4- Firmar los Módulos del Kernel:
 Una vez inscritas las claves, los módulos del kernel deben ser firmados usando la clave privada.
