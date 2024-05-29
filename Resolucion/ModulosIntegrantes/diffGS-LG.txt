@@ -1,0 +1,250 @@
+2,41d1
+< mimodulo               16384  0
+< nft_chain_nat          16384  3
+< xt_MASQUERADE          20480  3
+< nf_nat                 49152  2 nft_chain_nat,xt_MASQUERADE
+< nf_conntrack_netlink    49152  0
+< xfrm_user              40960  1
+< xfrm_algo              16384  1 xfrm_user
+< br_netfilter           32768  0
+< bridge                307200  1 br_netfilter
+< stp                    16384  1 bridge
+< llc                    16384  2 bridge,stp
+< ccm                    20480  6
+< rfcomm                 81920  16
+< overlay               151552  0
+< cmac                   16384  3
+< algif_hash             16384  1
+< algif_skcipher         16384  1
+< af_alg                 32768  6 algif_hash,algif_skcipher
+< bnep                   28672  2
+< ip6t_REJECT            16384  1
+< nf_reject_ipv6         20480  1 ip6t_REJECT
+< xt_hl                  16384  22
+< ip6_tables             32768  52
+< ip6t_rt                20480  3
+< ipt_REJECT             16384  1
+< nf_reject_ipv4         16384  1 ipt_REJECT
+< xt_LOG                 20480  10
+< nf_log_syslog          20480  10
+< nft_limit              16384  13
+< xt_limit               16384  0
+< xt_addrtype            16384  6
+< xt_tcpudp              20480  18
+< xt_conntrack           16384  19
+< nf_conntrack          172032  4 xt_conntrack,nf_nat,nf_conntrack_netlink,xt_MASQUERADE
+< nf_defrag_ipv6         24576  1 nf_conntrack
+< nf_defrag_ipv4         16384  1 nf_conntrack
+< nft_compat             20480  143
+< nft_counter            16384  201
+< nf_tables             266240  492 nft_compat,nft_counter,nft_chain_nat,nft_limit
+< nfnetlink              20480  4 nft_compat,nf_conntrack_netlink,nf_tables
+52c12
+< nls_iso8859_1          16384  1
+---
+> intel_rapl_msr         20480  0
+54,66d13
+< snd_sof_pci_intel_apl    16384  0
+< snd_sof_intel_hda_common   102400  1 snd_sof_pci_intel_apl
+< soundwire_intel        45056  1 snd_sof_intel_hda_common
+< soundwire_generic_allocation    16384  1 soundwire_intel
+< soundwire_cadence      36864  1 soundwire_intel
+< snd_sof_intel_hda      20480  1 snd_sof_intel_hda_common
+< snd_sof_pci            20480  2 snd_sof_intel_hda_common,snd_sof_pci_intel_apl
+< snd_sof_xtensa_dsp     16384  1 snd_sof_intel_hda_common
+< snd_sof               147456  2 snd_sof_pci,snd_sof_intel_hda_common
+< soundwire_bus          94208  3 soundwire_intel,soundwire_generic_allocation,soundwire_cadence
+< snd_soc_skl           172032  0
+< snd_soc_hdac_hda       24576  2 snd_sof_intel_hda_common,snd_soc_skl
+< snd_hda_ext_core       32768  4 snd_sof_intel_hda_common,snd_soc_hdac_hda,snd_soc_skl,snd_sof_intel_hda
+68d14
+< snd_soc_sst_ipc        20480  1 snd_soc_skl
+70,77c16
+< snd_soc_sst_dsp        36864  1 snd_soc_skl
+< snd_soc_acpi_intel_match    61440  3 snd_sof_intel_hda_common,snd_soc_skl,snd_sof_pci_intel_apl
+< ledtrig_audio          16384  2 snd_hda_codec_generic,snd_sof
+< snd_soc_acpi           16384  3 snd_soc_acpi_intel_match,snd_sof_intel_hda_common,snd_soc_skl
+< snd_soc_core          348160  5 soundwire_intel,snd_sof,snd_sof_intel_hda_common,snd_soc_hdac_hda,snd_soc_skl
+< snd_compress           24576  1 snd_soc_core
+< ac97_bus               16384  1 snd_soc_core
+< snd_pcm_dmaengine      16384  1 snd_soc_core
+---
+> ledtrig_audio          16384  1 snd_hda_codec_generic
+79,83d17
+< snd_intel_dspcfg       28672  3 snd_hda_intel,snd_sof_intel_hda_common,snd_soc_skl
+< snd_intel_sdw_acpi     20480  2 snd_sof_intel_hda_common,snd_intel_dspcfg
+< snd_hda_codec         163840  5 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_realtek,snd_soc_hdac_hda
+< intel_rapl_msr         20480  0
+< snd_hda_core          110592  10 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_ext_core,snd_hda_codec,snd_hda_codec_realtek,snd_sof_intel_hda_common,snd_soc_hdac_hda,snd_soc_skl,snd_sof_intel_hda
+85,87d18
+< intel_pmc_bxt          16384  0
+< snd_hwdep              16384  1 snd_hda_codec
+< intel_telemetry_pltdrv    20480  0
+89,91d19
+< intel_punit_ipc        16384  1 intel_telemetry_pltdrv
+< intel_telemetry_core    20480  1 intel_telemetry_pltdrv
+< snd_pcm               143360  11 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,soundwire_intel,snd_sof,snd_sof_intel_hda_common,snd_compress,snd_soc_core,snd_soc_skl,snd_hda_core,snd_pcm_dmaengine
+93a22,23
+> snd_intel_dspcfg       28672  1 snd_hda_intel
+> snd_intel_sdw_acpi     20480  1 snd_intel_dspcfg
+95,97c25
+< snd_seq_midi           20480  0
+< snd_seq_midi_event     16384  1 snd_seq_midi
+< snd_rawmidi            49152  1 snd_seq_midi
+---
+> snd_hda_codec         163840  4 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_realtek
+99c27,30
+< snd_seq                77824  2 snd_seq_midi,snd_seq_midi_event
+---
+> snd_hda_core          110592  5 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek
+> snd_hwdep              16384  1 snd_hda_codec
+> nls_iso8859_1          16384  1
+> snd_pcm               143360  4 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_core
+100a32
+> ath9k                 217088  0
+103,106c35,44
+< iwlmvm                569344  0
+< btusb                  61440  0
+< btrtl                  24576  1 btusb
+< snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
+---
+> ath9k_common           45056  1 ath9k
+> snd_seq_midi           20480  0
+> uvcvideo              106496  0
+> ath9k_hw              598016  2 ath9k_common,ath9k
+> snd_seq_midi_event     16384  1 snd_seq_midi
+> videobuf2_vmalloc      20480  1 uvcvideo
+> videobuf2_memops       20480  1 videobuf2_vmalloc
+> snd_rawmidi            49152  1 snd_seq_midi
+> videobuf2_v4l2         32768  1 uvcvideo
+> ath                    36864  3 ath9k_common,ath9k,ath9k_hw
+108,117c46,48
+< mac80211             1249280  1 iwlmvm
+< btbcm                  24576  1 btusb
+< btintel                40960  1 btusb
+< bluetooth             704512  43 btrtl,btintel,btbcm,bnep,btusb,rfcomm
+< libarc4                16384  1 mac80211
+< iwlwifi               454656  1 iwlmvm
+< snd_timer              40960  2 snd_seq,snd_pcm
+< serio_raw              20480  0
+< cfg80211              974848  3 iwlmvm,iwlwifi,mac80211
+< ecdh_generic           16384  2 bluetooth
+---
+> videobuf2_common       77824  4 videobuf2_vmalloc,videobuf2_v4l2,uvcvideo,videobuf2_memops
+> mac80211             1249280  1 ath9k
+> asus_nb_wmi            28672  0
+119,124c50,57
+< wmi_bmof               16384  0
+< at24                   24576  0
+< uvcvideo              106496  0
+< ecc                    36864  1 ecdh_generic
+< snd                   106496  19 snd_hda_codec_generic,snd_seq,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek,snd_timer,snd_compress,snd_soc_core,snd_pcm,snd_rawmidi
+< intel_xhci_usb_role_switch    16384  0
+---
+> videodev              258048  3 videobuf2_v4l2,uvcvideo,videobuf2_common
+> serio_raw              20480  0
+> snd_seq                77824  2 snd_seq_midi,snd_seq_midi_event
+> cfg80211              974848  4 ath9k_common,ath9k,ath,mac80211
+> mc                     65536  4 videodev,videobuf2_v4l2,uvcvideo,videobuf2_common
+> snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
+> snd_timer              40960  2 snd_seq,snd_pcm
+> libarc4                16384  1 mac80211
+126c59
+< soundcore              16384  1 snd
+---
+> snd                   106496  17 snd_hda_codec_generic,snd_seq,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek,snd_timer,snd_pcm,snd_rawmidi
+128,130c61
+< ideapad_laptop         28672  0
+< sparse_keymap          16384  1 ideapad_laptop
+< platform_profile       16384  1 ideapad_laptop
+---
+> soundcore              16384  1 snd
+132c63,64
+< sch_fq_codel           20480  2
+---
+> asus_wireless          20480  0
+> sch_fq_codel           20480  3
+137d68
+< efi_pstore             16384  0
+139,140c70,72
+< ip_tables              32768  8
+< x_tables               53248  13 xt_conntrack,nft_compat,xt_LOG,xt_tcpudp,xt_addrtype,ip6t_rt,ip6_tables,ipt_REJECT,ip_tables,xt_limit,xt_hl,xt_MASQUERADE,ip6t_REJECT
+---
+> efi_pstore             16384  0
+> ip_tables              32768  0
+> x_tables               53248  1 ip_tables
+147c79
+< libcrc32c              16384  4 nf_conntrack,nf_nat,btrfs,nf_tables
+---
+> libcrc32c              16384  1 btrfs
+151,166c83
+< hid_rmi                24576  0
+< rmi_core              106496  1 hid_rmi
+< videobuf2_vmalloc      20480  2 rmi_core,uvcvideo
+< videobuf2_memops       20480  1 videobuf2_vmalloc
+< videobuf2_v4l2         32768  2 rmi_core,uvcvideo
+< videobuf2_common       77824  5 videobuf2_vmalloc,rmi_core,videobuf2_v4l2,uvcvideo,videobuf2_memops
+< videodev              258048  4 rmi_core,videobuf2_v4l2,uvcvideo,videobuf2_common
+< mc                     65536  4 videodev,videobuf2_v4l2,uvcvideo,videobuf2_common
+< i915                 3117056  25
+< crct10dif_pclmul       16384  1
+< crc32_pclmul           16384  0
+< hid_generic            16384  0
+< ghash_clmulni_intel    16384  0
+< sha256_ssse3           32768  0
+< sha1_ssse3             32768  0
+< aesni_intel           376832  8
+---
+> i915                 3117056  24
+169,171d85
+< usbhid                 65536  0
+< crypto_simd            16384  1 aesni_intel
+< cryptd                 24576  3 crypto_simd,ghash_clmulni_intel
+173a88
+> crct10dif_pclmul       16384  1
+177c92
+< intel_lpss_pci         24576  0
+---
+> crc32_pclmul           16384  0
+179c94
+< intel_lpss             16384  1 intel_lpss_pci
+---
+> ghash_clmulni_intel    16384  0
+181,185c96,103
+< lpc_ich                28672  0
+< idma64                 20480  0
+< r8169                 102400  0
+< xhci_pci               24576  0
+< xhci_pci_renesas       20480  1 xhci_pci
+---
+> mfd_aaeon              16384  0
+> asus_wmi               49152  2 asus_nb_wmi,mfd_aaeon
+> cryptd                 24576  1 ghash_clmulni_intel
+> sparse_keymap          16384  1 asus_wmi
+> platform_profile       16384  1 asus_wmi
+> sha256_ssse3           32768  0
+> drm                   622592  10 drm_kms_helper,i915,ttm
+> sha1_ssse3             32768  0
+187d104
+< drm                   622592  15 drm_kms_helper,i915,ttm
+189,190c106
+< i2c_smbus              20480  1 i2c_i801
+< realtek                32768  1
+---
+> psmouse               176128  0
+192,197c108,115
+< wmi                    32768  2 wmi_bmof,ideapad_laptop
+< i2c_hid_acpi           16384  0
+< i2c_hid                36864  1 i2c_hid_acpi
+< hid                   151552  4 i2c_hid,usbhid,hid_generic,hid_rmi
+< video                  65536  2 ideapad_laptop,i915
+< pinctrl_broxton        40960  1
+---
+> i2c_smbus              20480  1 i2c_i801
+> xhci_pci               24576  0
+> lpc_ich                28672  0
+> alx                    53248  0
+> mdio                   16384  1 alx
+> xhci_pci_renesas       20480  1 xhci_pci
+> wmi                    32768  2 asus_wmi,mfd_aaeon
+> video                  65536  2 asus_wmi,i915

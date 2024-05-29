@@ -1,0 +1,8 @@
+all:
+    gcc -o helloworld HelloWorld.c
+
+install:
+    install -m 755 helloworld /usr/local/bin/helloworld
+
+clean:
+    rm -f helloworld

@@ -1,0 +1,115 @@
+Module                  Size  Used by
+binfmt_misc            24576  1
+zfs                  4112384  0
+zunicode              348160  1 zfs
+zzstd                 491520  1 zfs
+zlua                  163840  1 zfs
+zavl                   16384  1 zfs
+icp                   311296  1 zfs
+zcommon               106496  2 zfs,icp
+znvpair                98304  2 zfs,zcommon
+spl                   118784  6 zfs,icp,zzstd,znvpair,zcommon,zavl
+intel_rapl_msr         20480  0
+snd_hda_codec_hdmi     77824  1
+snd_hda_codec_realtek   159744  1
+snd_hda_codec_generic   102400  1 snd_hda_codec_realtek
+ledtrig_audio          16384  1 snd_hda_codec_generic
+snd_hda_intel          53248  3
+intel_rapl_common      40960  1 intel_rapl_msr
+mei_hdcp               24576  0
+x86_pkg_temp_thermal    20480  0
+intel_powerclamp       24576  0
+snd_intel_dspcfg       28672  1 snd_hda_intel
+snd_intel_sdw_acpi     20480  1 snd_intel_dspcfg
+coretemp               24576  0
+snd_hda_codec         163840  4 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_realtek
+kvm_intel             372736  0
+snd_hda_core          110592  5 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek
+snd_hwdep              16384  1 snd_hda_codec
+nls_iso8859_1          16384  1
+snd_pcm               143360  4 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_core
+kvm                  1032192  1 kvm_intel
+ath9k                 217088  0
+rapl                   20480  0
+intel_cstate           20480  0
+ath9k_common           45056  1 ath9k
+snd_seq_midi           20480  0
+uvcvideo              106496  0
+ath9k_hw              598016  2 ath9k_common,ath9k
+snd_seq_midi_event     16384  1 snd_seq_midi
+videobuf2_vmalloc      20480  1 uvcvideo
+videobuf2_memops       20480  1 videobuf2_vmalloc
+snd_rawmidi            49152  1 snd_seq_midi
+videobuf2_v4l2         32768  1 uvcvideo
+ath                    36864  3 ath9k_common,ath9k,ath9k_hw
+input_leds             16384  0
+videobuf2_common       77824  4 videobuf2_vmalloc,videobuf2_v4l2,uvcvideo,videobuf2_memops
+mac80211             1249280  1 ath9k
+asus_nb_wmi            28672  0
+joydev                 32768  0
+videodev              258048  3 videobuf2_v4l2,uvcvideo,videobuf2_common
+serio_raw              20480  0
+snd_seq                77824  2 snd_seq_midi,snd_seq_midi_event
+cfg80211              974848  4 ath9k_common,ath9k,ath,mac80211
+mc                     65536  4 videodev,videobuf2_v4l2,uvcvideo,videobuf2_common
+snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
+snd_timer              40960  2 snd_seq,snd_pcm
+libarc4                16384  1 mac80211
+mei_me                 40960  1
+snd                   106496  17 snd_hda_codec_generic,snd_seq,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek,snd_timer,snd_pcm,snd_rawmidi
+mei                   135168  3 mei_hdcp,mei_me
+soundcore              16384  1 snd
+mac_hid                16384  0
+asus_wireless          20480  0
+sch_fq_codel           20480  3
+msr                    16384  0
+parport_pc             49152  0
+ppdev                  24576  0
+lp                     28672  0
+parport                69632  3 parport_pc,lp,ppdev
+efi_pstore             16384  0
+ip_tables              32768  0
+x_tables               53248  1 ip_tables
+autofs4                49152  2
+btrfs                1564672  0
+blake2b_generic        20480  0
+xor                    24576  1 btrfs
+zstd_compress         229376  1 btrfs
+raid6_pq              122880  1 btrfs
+libcrc32c              16384  1 btrfs
+dm_mirror              24576  0
+dm_region_hash         24576  1 dm_mirror
+dm_log                 20480  2 dm_region_hash,dm_mirror
+i915                 3117056  24
+i2c_algo_bit           16384  1 i915
+ttm                    86016  1 i915
+drm_kms_helper        311296  1 i915
+syscopyarea            16384  1 drm_kms_helper
+crct10dif_pclmul       16384  1
+sysfillrect            20480  1 drm_kms_helper
+sysimgblt              16384  1 drm_kms_helper
+fb_sys_fops            16384  1 drm_kms_helper
+crc32_pclmul           16384  0
+cec                    61440  2 drm_kms_helper,i915
+ghash_clmulni_intel    16384  0
+rc_core                65536  1 cec
+mfd_aaeon              16384  0
+asus_wmi               49152  2 asus_nb_wmi,mfd_aaeon
+cryptd                 24576  1 ghash_clmulni_intel
+sparse_keymap          16384  1 asus_wmi
+platform_profile       16384  1 asus_wmi
+sha256_ssse3           32768  0
+drm                   622592  10 drm_kms_helper,i915,ttm
+sha1_ssse3             32768  0
+ahci                   49152  2
+i2c_i801               36864  0
+psmouse               176128  0
+libahci                49152  1 ahci
+i2c_smbus              20480  1 i2c_i801
+xhci_pci               24576  0
+lpc_ich                28672  0
+alx                    53248  0
+mdio                   16384  1 alx
+xhci_pci_renesas       20480  1 xhci_pci
+wmi                    32768  2 asus_wmi,mfd_aaeon
+video                  65536  2 asus_wmi,i915
