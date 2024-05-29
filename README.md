@@ -18,24 +18,24 @@ Por otro lado, en esta primera parte vamos a trabajar con los siguientes program
 
 ## Desafios
 ### Desafío #1 
-- ¿Qué es checkinstall y para qué sirve?
-CheckInstall es una herramienta útil para sistemas operativos Unix-like que facilita la gestión de paquetes. Esta herramienta se utiliza principalmente cuando necesitas instalar un programa desde el código fuente.
-Cuando se instala un programa de esta forma, normalmente el proceso implica ejecutar `make install`. Sin embargo, este método tiene algunas desventajas, especialmente cuando es necesario actualizar o desinstalar ese programa.
-Aquí es donde CheckInstall puede ser de gran ayuda. En lugar de `make install`, se usa `checkinstall`, y esta herramienta se encarga del resto. CheckInstall rastrea los cambios en los archivos durante la instalación y genera paquetes binarios a partir de los tarballs. Con CheckInstall, se puede generar un paquete RPM, deb o Slackware que se puede portar entre sistemas para una fácil instalación y eliminación.
+- *¿Qué es checkinstall y para qué sirve?*  
+CheckInstall es una herramienta útil para sistemas operativos Unix-like que facilita la gestión de paquetes. Este programa se utiliza principalmente para la instalación y desinstalación de un software compilado desde el código fuente.  
+Cuando se instala un programa de esta forma, normalmente el proceso implica ejecutar `make install`. Sin embargo, este método tiene algunas desventajas, especialmente cuando se necesita actualizar o desinstalar ese programa. Aquí es donde CheckInstall puede ser de gran ayuda. En lugar de `make install`, se usa `checkinstall`, y esta herramienta se encarga del resto. CheckInstall rastrea los cambios en los archivos durante la instalación y genera paquetes binarios a partir de los tarballs. Con CheckInstall, se puede generar un paquete RPM, deb o Slackware que se puede portar entre sistemas para una fácil instalación y eliminación.  
 Para usar CheckInstall, se debe seguir los siguientes pasos:
 1. Ejecutar los comandos `./configure` y `make` como se hace normalmente para compilar el programa desde el código fuente.
 2. En lugar de `make install`, se ejecuta `checkinstall`.
 3. CheckInstall preguntará si se quiere crear un directorio para guardar alguna documentación que pueda ser necesaria para el empaquetado posterior. Aceptar el valor predeterminado de Sí y continuar.
-4. Luego, pedirá una descripción. Esto es lo que se verá en lugares como el campo Resumen al mostrar la información del paquete.
+4. Luego, pedirá una descripción que se verá en lugares como el campo Resumen al mostrar la información del paquete.
 5. Finalmente, se obtiene la última pantalla confirmando todos los detalles del paquete. Un aspecto importante de esta pantalla es que puede establecer dependencias para el paquete.
 
-- Usarlo para empaquetar un hello world ? 
-  Para realizar esto, vamos a utilizar el archivo llamado "Hello.c" y un "Makefile". Primero vamos a ejecutar `make` para que se realice todo lo que esta dentro del makefile, y luego `sudo checkinstall`. Al hacer esto obtenemos como resultado 3 archivos: hello , description-pak, y arch_20240528-1_amd64.deb
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/399c6e82-c48d-4758-b44a-9a68ffd4cf85)
-Que es lo que hicimos? En primer lugar se compila el archivo hello.c y genera un ejecutable llamado hello. luego install: Esta regla instala el programa en tu sistema. install -m 755 hello /usr/local/bin/hello copia el ejecutable hello al directorio /usr/local/bin con permisos 755 (lo que significa que el propietario puede leer, escribir y ejecutar, y los demás pueden leer y ejecutar).Luego ejecutamos sudo checkinstall, el cual En lugar de simplemente copiar los archivos directamente al sistema como make install, crea un paquete de software compatible con tu sistema de gestión de paquetes (como DEB para Debian/Ubuntu, RPM para Fedora/RHEL, etc.) y luego instala ese paquete. Esto tiene varias ventajas:
-Puedes desinstalar el paquete en cualquier momento utilizando tu sistema de gestión de paquetes (por ejemplo, apt, yum, dnf, etc.).
-Puedes distribuir el paquete a otros sistemas de la misma arquitectura y sistema operativo y instalarlo allí.
-Tienes un registro de los archivos que se instalaron y dónde se instalaron.
+- * Uso de checkinstall para empaquetar un hello world*  
+  Para realizar esto, vamos a utilizar el archivo llamado "Hello.c" y un "Makefile". Primero vamos a ejecutar `make` para que se realice todo lo que esta dentro del makefile, y luego `sudo checkinstall`. Al hacer esto obtenemos como resultado 3 archivos: hello , description-pak, y arch_20240528-1_amd64.deb  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/399c6e82-c48d-4758-b44a-9a68ffd4cf85)  
+¿Qé es lo que hicimos? En primer lugar compilamos el archivo hello.c y generamos un ejecutable llamado hello. Luego usamos un install: para instalar el programa en nuestro sistema. `install -m 755 hello /usr/local/bin/hello`, copiamos el ejecutable hello al directorio `/usr/local/bin` con permisos 755 (lo que significa que podemos leer, escribir y ejecutar, y otras personas sólo pueden leer y ejecutar).Luego ejecutamos `sudo checkinstall`, el cual, en lugar de simplemente copiar los archivos directamente al sistema como `make install`, crea un paquete de software compatible con nuestro sistema de gestión de paquetes (como DEB para Debian/Ubuntu, RPM para Fedora/RHEL, etc.) y luego instala ese paquete.  
+Esto tiene varias ventajas:
+* Podemos desinstalar el paquete en cualquier momento utilizando nuestro sistema de gestión de paquetes (por ejemplo, apt, yum, dnf, etc.).
+* Podemos distribuir el paquete a otros sistemas de la misma arquitectura y sistema operativo y instalarlo allí.
+* Obtenemos un registro de los archivos que se instalaron y dónde se instalaron.  
   
 - Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados:  A continuacion se colocan algunas medidas de seguridad para realizar:
 SELinux/AppArmor: Configurar y activar SELinux o AppArmor para aplicar políticas de control de acceso que restrinjan las operaciones de los procesos y módulos del kernel.
