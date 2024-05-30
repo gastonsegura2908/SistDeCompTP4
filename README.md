@@ -19,50 +19,56 @@ Por otro lado, en esta primera parte vamos a trabajar con los siguientes program
 ## Desafios
 ### Desafío #1 
 - *¿Qué es checkinstall y para qué sirve?*  
-CheckInstall es una herramienta útil para sistemas operativos Unix-like que facilita la gestión de paquetes. Este programa se utiliza principalmente para la instalación y desinstalación de un software compilado desde el código fuente.  
-Cuando se instala un programa de esta forma, normalmente el proceso implica ejecutar `make install`. Sin embargo, este método tiene algunas desventajas, especialmente cuando se necesita actualizar o desinstalar ese programa. Aquí es donde CheckInstall puede ser de gran ayuda. En lugar de `make install`, se usa `checkinstall`, y esta herramienta se encarga del resto. CheckInstall rastrea los cambios en los archivos durante la instalación y genera paquetes binarios a partir de los tarballs. Con CheckInstall, se puede generar un paquete RPM, deb o Slackware que se puede portar entre sistemas para una fácil instalación y eliminación.  
-Para usar CheckInstall, se debe seguir los siguientes pasos:
+ CheckInstall es una herramienta útil para sistemas operativos Unix-like que facilita la gestión de paquetes. Este programa se utiliza principalmente para la instalación y desinstalación de un software compilado desde el código fuente.  
+ Cuando se instala un programa de esta forma, normalmente el proceso implica ejecutar `make install`. Sin embargo, este método tiene algunas desventajas, especialmente cuando se necesita actualizar o desinstalar ese programa. Aquí es donde CheckInstall puede ser de gran ayuda. En lugar de `make install`, se usa `checkinstall`, y esta herramienta se encarga del resto. CheckInstall rastrea los cambios en los archivos durante la instalación y genera paquetes binarios a partir de los tarballs. Con CheckInstall, se puede generar un paquete RPM, deb o Slackware que se puede portar entre sistemas para una fácil instalación y eliminación.  
+ Para usar CheckInstall, se debe seguir los siguientes pasos:
 1. Ejecutar los comandos `./configure` y `make` como se hace normalmente para compilar el programa desde el código fuente.
 2. En lugar de `make install`, se ejecuta `checkinstall`.
 3. CheckInstall preguntará si se quiere crear un directorio para guardar alguna documentación que pueda ser necesaria para el empaquetado posterior. Aceptar el valor predeterminado de Sí y continuar.
 4. Luego, pedirá una descripción que se verá en lugares como el campo Resumen al mostrar la información del paquete.
 5. Finalmente, se obtiene la última pantalla confirmando todos los detalles del paquete. Un aspecto importante de esta pantalla es que puede establecer dependencias para el paquete.
 
-- * Uso de checkinstall para empaquetar un hello world*  
-  Para realizar esto, vamos a utilizar el archivo llamado "Hello.c" y un "Makefile". Primero vamos a ejecutar `make` para que se realice todo lo que esta dentro del makefile, y luego `sudo checkinstall`. Al hacer esto obtenemos como resultado 3 archivos: hello , description-pak, y arch_20240528-1_amd64.deb  
+- *Uso de checkinstall para empaquetar un hello world*  
+  Para realizar esto, vamos a utilizar el archivo llamado "Hello.c" y un "Makefile". Primero vamos a ejecutar `make` para que se realice todo lo que esta dentro del makefile, y luego `sudo checkinstall`. Al hacer esto obtenemos como resultado 3 archivos: **hello** , **description-pak**, y **arch_20240528-1_amd64.deb**  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/399c6e82-c48d-4758-b44a-9a68ffd4cf85)  
-¿Qé es lo que hicimos? En primer lugar compilamos el archivo hello.c y generamos un ejecutable llamado hello. Luego usamos un install: para instalar el programa en nuestro sistema. `install -m 755 hello /usr/local/bin/hello`, copiamos el ejecutable hello al directorio `/usr/local/bin` con permisos 755 (lo que significa que podemos leer, escribir y ejecutar, y otras personas sólo pueden leer y ejecutar).Luego ejecutamos `sudo checkinstall`, el cual, en lugar de simplemente copiar los archivos directamente al sistema como `make install`, crea un paquete de software compatible con nuestro sistema de gestión de paquetes (como DEB para Debian/Ubuntu, RPM para Fedora/RHEL, etc.) y luego instala ese paquete.  
-Esto tiene varias ventajas:
+ ¿Qué es lo que hicimos?  
+En primer lugar compilamos el archivo hello.c y generamos un ejecutable llamado hello. Luego usamos un install: para instalar el programa en nuestro sistema. `install -m 755 hello /usr/local/bin/hello`, copiamos el ejecutable hello al directorio `/usr/local/bin` con permisos 755 (lo que significa que podemos leer, escribir y ejecutar, y otras personas sólo pueden leer y ejecutar). Luego ejecutamos `sudo checkinstall`, el cual, en lugar de simplemente copiar los archivos directamente al sistema como `make install`, crea un paquete de software compatible con nuestro sistema de gestión de paquetes (como DEB para Debian/Ubuntu, RPM para Fedora/RHEL, etc.) y luego instala ese paquete.  
+ Esto tiene varias ventajas:
 * Podemos desinstalar el paquete en cualquier momento utilizando nuestro sistema de gestión de paquetes (por ejemplo, apt, yum, dnf, etc.).
 * Podemos distribuir el paquete a otros sistemas de la misma arquitectura y sistema operativo y instalarlo allí.
 * Obtenemos un registro de los archivos que se instalaron y dónde se instalaron.  
   
-- Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados:  A continuacion se colocan algunas medidas de seguridad para realizar:
-SELinux/AppArmor: Configurar y activar SELinux o AppArmor para aplicar políticas de control de acceso que restrinjan las operaciones de los procesos y módulos del kernel.
-Auditoría y Monitoreo: Implementar herramientas de auditoría como auditd para monitorear y registrar eventos críticos relacionados con el kernel y los módulos.
-Control de Integridad:Utilizar IMA/EVM (Integrity Measurement Architecture/Extended Verification Module) para asegurar la integridad de los archivos y binarios del sistema, incluyendo módulos del kernel.
-Actualización Regular del Kernel y Módulos: Mantener el kernel y los módulos actualizados para protegerse contra vulnerabilidades conocidas. Utiliza herramientas como yum, dnf, o apt para actualizar regularmente.
-Uso de Módulos Firmados por el Distribuidor: Siempre que sea posible, utiliza módulos del kernel proporcionados y firmados por la distribución (Red Hat, Ubuntu, etc.) ya que estos han sido verificados y son confiables.
-Configuración de Políticas de Carga de Módulos: Modificar el archivo /etc/modprobe.d/ para controlar qué módulos pueden ser cargados. Se pueden establecer políticas estrictas para restringir módulos no deseados.
+- Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados:  
+   A continuacion mencionaremos algunas medidas de seguridad para esto:
+* SELinux/AppArmor: se puede configurar y activar SELinux o AppArmor para aplicar políticas de control de acceso que restrinjan las operaciones de los procesos y módulos del kernel.
+* Auditoría y Monitoreo: se implementa herramientas de auditoría como auditd para monitorear y registrar eventos críticos relacionados con el kernel y los módulos.
+* Control de Integridad: Utilizar IMA/EVM (Integrity Measurement Architecture/Extended Verification Module) para asegurar la integridad de los archivos y binarios del sistema, incluyendo módulos del kernel.
+* Actualización Regular del Kernel y Módulos: Mantener el kernel y los módulos actualizados para protegerse contra vulnerabilidades conocidas. Utiliza herramientas como yum, dnf, o apt para actualizar regularmente.
+* Uso de Módulos Firmados por el Distribuidor: Siempre que sea posible, utilizar módulos del kernel proporcionados y firmados por la distribución (Red Hat, Ubuntu, etc.) ya que estos han sido verificados y son confiables.
+* Configuración de Políticas de Carga de Módulos: Modificar el archivo /etc/modprobe.d/ para controlar qué módulos pueden ser cargados. Se pueden establecer políticas estrictas para restringir módulos no deseados.
 
 ### Desafío #2  
 Debe tener respuestas precisas a las siguientes preguntas y sentencias:
-¿ Qué funciones tiene disponible un programa y un módulo ?
-Espacio de usuario o espacio del kernel.
-Espacio de datos.
-Drivers. Investigar contenido de /dev.  
+- ¿ Qué funciones tiene disponible un programa y un módulo ?
+- Espacio de usuario o espacio del kernel.
+- Espacio de datos.
+- Drivers. Investigar contenido de /dev.  
 
-RESPUESTAS
-- Qué funciones tiene disponible un programa y un módulo ?Un programa en el espacio de usuario tiene acceso a un conjunto limitado de funciones del sistema operativo a través de las llamadas al sistema. Estas funciones incluyen operaciones de E/S (como leer y escribir en archivos), operaciones de red, operaciones de memoria (como asignar y liberar memoria), y otras operaciones del sistema o Un módulo del kernel, por otro lado, se ejecuta en el espacio del kernel y tiene acceso a las funciones internas del kernel y a las interfaces de hardware. Esto incluye funciones para interactuar con los controladores de dispositivos, manipular estructuras de datos del kernel, registrar controladores de interrupciones, y más.perativo. Sin embargo, un programa no puede acceder directamente al hardware ni a las regiones de memoria del kernel.
-- Espacio de usuario o espacio del kernel: El espacio del kernel se refiere a la memoria que el kernel del sistema operativo tiene reservada para su funcionamiento. Aquí es donde el kernel mantiene sus estructuras de datos y ejecuta código de nivel de sistema operativo.En contraste, el espacio de usuario es la memoria reservada para la ejecución de aplicaciones y procesos del usuario. El kernel protege su espacio de memoria para evitar que los procesos del usuario interfieran con su funcionamiento.
-- Espacio de datos: Es una región de memoria asignada por el sistema operativo para almacenar las variables y los datos de ejecución de un programa. Cuando un programa se ejecuta, el sistema operativo crea un espacio de datos para ese programa donde puede almacenar sus variables y otros datos.
-- Drivers. Investigar contenido de /dev: Device driver(controlador de dispositivo) es una clase de modulo que proporciona funcionalidad para hardware como un puerto serie. En Unix, cada pieza de hardware está representada por un archivo ubicado en /dev llamado device file(archivo de dispositivo) que proporciona los medios para comunicarse con el hardware1. El controlador de dispositivo proporciona la comunicación en nombre de un programa de usuario1. Esto significa que los controladores de dispositivos actúan como un traductor entre el hardware y los programas o sistemas operativos que lo utilizan1. Permiten que el software interactúe con el hardware sin necesidad de saber cómo funciona el hardware. Con el comando ` ls /dev ` podemos listar todos los archivos en el directorio, por ejemplo al ejecutar ` ls -l /dev/sda ` se obtiene ` brw-rw---- 1 root disk 8, 0 may 27 17:26 /dev/sda ` : 
-brw-rw----: Estos son los permisos del archivo. El primer carácter b indica que /dev/sda es un archivo de dispositivo de bloque. Los siguientes nueve caracteres representan los permisos del archivo para el propietario, el grupo y otros, respectivamente. En este caso, rw- significa que el propietario tiene permisos de lectura y escritura, rw- significa que el grupo tiene permisos de lectura y escritura, y --- significa que otros no tienen permisos.
-1: Este es el número de enlaces al archivo. Para los archivos de dispositivo, esto generalmente será 1.
-root disk: Estos son el propietario y el grupo del archivo, respectivamente. En este caso, el propietario es root y el grupo es disk.
-8, 0: Estos son los números mayor y menor del dispositivo, respectivamente. Estos números son importantes para el sistema operativo ya que utiliza estos números para identificar el dispositivo de hardware específico que este archivo representa.
-may 27 17:26: Esta es la última vez que se accedió o modificó el archivo.
-/dev/sda: Este es el nombre del archivo de dispositivo.
+RESPUESTAS  
+- *¿Qué funciones tiene disponible un programa y un módulo?*
+  Un programa tiene acceso a un conjunto limitado de funciones del sistema operativo a través de las llamadas al sistema. Estas funciones incluyen operaciones de E/S (como leer y escribir en archivos), operaciones de red, operaciones de memoria (como asignar y liberar memoria), y otras operaciones del sistema.  
+  Un módulo del kernel, por otro lado, se ejecuta en el espacio del kernel y tiene acceso a las funciones internas del kernel y a las interfaces de hardware. Esto incluye funciones para interactuar con los controladores de dispositivos, manipular estructuras de datos del kernel, registrar controladores de interrupciones, y más. Sin embargo, un programa no puede acceder directamente al hardware ni a las regiones de memoria del kernel.
+  
+- *Espacio de usuario o espacio del kernel:*   El espacio del kernel se refiere a la memoria que el kernel del sistema operativo tiene reservada para su funcionamiento. Aquí es donde el kernel mantiene sus estructuras de datos y ejecuta código de nivel de sistema operativo. En contraste, el espacio de usuario es la memoria reservada para la ejecución de aplicaciones y procesos del usuario. El kernel protege su espacio de memoria para evitar que los procesos del usuario interfieran con su funcionamiento.  
+- *Espacio de datos:* Es una región de memoria asignada por el sistema operativo para almacenar las variables y los datos de ejecución de un programa. Cuando un programa se ejecuta, el sistema operativo crea un espacio de datos para ese programa donde puede almacenar sus variables y otros datos.  
+- *Drivers*  
+   Device driver (controlador de dispositivo) es una clase de modulo que proporciona funcionalidad para hardware como un puerto serie. En Unix, cada pieza de hardware está representada por un archivo ubicado en /dev llamado device file (archivo de dispositivo) que proporciona los medios para comunicarse con el hardware1. El controlador de dispositivo proporciona la comunicación en nombre de un programa de usuario1. Esto significa que los controladores de dispositivos actúan como un traductor entre el hardware y los programas o sistemas operativos que lo utilizan1. Permiten que el software interactúe con el hardware sin necesidad de saber cómo funciona el hardware. Con el comando ` ls /dev ` podemos listar todos los archivos en el directorio, por ejemplo al ejecutar ` ls -l /dev/sda ` se obtiene ` brw-rw---- 1 root disk 8, 0 may 27 17:26 /dev/sda ` : 
+`brw-rw----:` Estos son los permisos del archivo. El primer carácter **b** indica que /dev/sda es un archivo de dispositivo de bloque. Los siguientes nueve caracteres representan los permisos del archivo para el propietario, el grupo y otros, respectivamente. En este caso, **rw-** significa que el propietario tiene permisos de lectura y escritura, **rw-** significa que el grupo tiene permisos de lectura y escritura, y **---** significa que otros no tienen permisos.
+`1:` Este es el número de enlaces al archivo. Para los archivos de dispositivo, esto generalmente será 1.
+`root disk:` Estos son el propietario y el grupo del archivo, respectivamente. En este caso, el propietario es root y el grupo es disk.
+`8, 0:` Estos son los números mayor y menor del dispositivo, respectivamente. Estos números son importantes para el sistema operativo ya que utiliza estos números para identificar el dispositivo de hardware específico que este archivo representa.
+`may 27 17:26:` Esta es la última vez que se accedió o modificó el archivo.
+`/dev/sda:` Este es el nombre del archivo de dispositivo.
 
 
 
@@ -75,23 +81,23 @@ https://docs.google.com/presentation/d/1BYES6Zkfx5K85REWyXsFeW-VngBLOzlDzaYCsTVo
 
 
 ## PASOS - RESOLUCION
-- En primer lugar ejecutamos make en la carpeta correspondiente:
+- En primer lugar ejecutamos make en la carpeta correspondiente:  
 ` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ make `
-A partir de ejecutar este comando se generan los siguientes archivos:
-` make -C /lib/modules/5.15.0-107-generic/build M=/home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module modules
-make[1]: se entra en el directorio '/usr/src/linux-headers-5.15.0-107-generic'
-  CC [M]  /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.o
-  MODPOST /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/Module.symvers
-  CC [M]  /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.mod.o
-  LD [M]  /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko
-  BTF [M] /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko
-Skipping BTF generation for /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko due to unavailability of vmlinux `
-- Luego insertamos:
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo insmod mimodulo.ko `
-Al ejecutar el comando `sudo insmod mimodulo.ko`, estás insertando el módulo del kernel `mimodulo.ko` en el kernel de Linux⁷. 
-El comando `insmod` es una herramienta que se utiliza para insertar módulos en el kernel de Linux⁴. Los módulos del kernel son piezas de código que se pueden cargar y descargar en el kernel según sea necesario. Estos módulos ofrecen funciones esenciales, como soporte para hardware y sistemas de archivos, que el kernel utilizará solo si se solicitan o se necesitan⁴.
-Cuando ejecutas `sudo insmod mimodulo.ko`, estás dando instrucciones al sistema para que cargue el módulo `mimodulo.ko` en el kernel. Este módulo ahora puede proporcionar funcionalidades adicionales al kernel⁷.
-Es importante mencionar que debes tener privilegios de superusuario para ejecutar este comando, de ahí el uso de `sudo`⁷. Esto se debe a que la manipulación de módulos del kernel puede afectar significativamente el funcionamiento del sistema⁴.
+A partir de ejecutar este comando se generan los siguientes archivos:  
+` make -C /lib/modules/5.15.0-107-generic/build M=/home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module modules  
+make[1]: se entra en el directorio '/usr/src/linux-headers-5.15.0-107-generic'  
+  CC [M]  /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.o  
+  MODPOST /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/Module.symvers  
+  CC [M]  /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.mod.o  
+  LD [M]  /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko  
+  BTF [M] /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko  
+Skipping BTF generation for /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko due to unavailability of vmlinux `  
+- Luego insertamos:  
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo insmod mimodulo.ko `  
+Al ejecutar el comando `sudo insmod mimodulo.ko`, se está insertando el módulo del kernel `mimodulo.ko` en el kernel de Linux. 
+El comando `insmod` es una herramienta que se utiliza para insertar módulos en el kernel de Linux. Los módulos del kernel son piezas de código que se pueden cargar y descargar en el kernel según sea necesario. Estos módulos ofrecen funciones esenciales, como soporte para hardware y sistemas de archivos, que el kernel utilizará solo si se solicitan o se necesitan.
+Cuando se ejecuta `sudo insmod mimodulo.ko`, está dando instrucciones al sistema para que cargue el módulo `mimodulo.ko` en el kernel. Este módulo ahora puede proporcionar funcionalidades adicionales al kernel.
+Cabe mencionar que es necesiario tener privilegios de superusuario para ejecutar este comando, de ahí el uso de `sudo`. Esto se debe a que la manipulación de módulos del kernel puede afectar significativamente el funcionamiento del sistema.  
 - Al ejecutar:
 ` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo dmesg `
 Se puede observar una gran cantidad de codigo,pero se adjunta una parte de el:
