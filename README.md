@@ -20,19 +20,21 @@ Por otro lado, en esta primera parte vamos a trabajar con los siguientes program
 ### Desafío #1 
 - *¿Qué es checkinstall y para qué sirve?*  
  CheckInstall es una herramienta útil para sistemas operativos Unix-like que facilita la gestión de paquetes. Este programa se utiliza principalmente para la instalación y desinstalación de un software compilado desde el código fuente.  
- Cuando se instala un programa de esta forma, normalmente el proceso implica ejecutar `make install`. Sin embargo, este método tiene algunas desventajas, especialmente cuando se necesita actualizar o desinstalar ese programa. Aquí es donde CheckInstall puede ser de gran ayuda. En lugar de `make install`, se usa `checkinstall`, y esta herramienta se encarga del resto. CheckInstall rastrea los cambios en los archivos durante la instalación y genera paquetes binarios a partir de los tarballs. Con CheckInstall, se puede generar un paquete RPM, deb o Slackware que se puede portar entre sistemas para una fácil instalación y eliminación.  
- Para usar CheckInstall, se debe seguir los siguientes pasos:
-1. Ejecutar los comandos `./configure` y `make` como se hace normalmente para compilar el programa desde el código fuente.
-2. En lugar de `make install`, se ejecuta `checkinstall`.
-3. CheckInstall preguntará si se quiere crear un directorio para guardar alguna documentación que pueda ser necesaria para el empaquetado posterior. Aceptar el valor predeterminado de Sí y continuar.
-4. Luego, pedirá una descripción que se verá en lugares como el campo Resumen al mostrar la información del paquete.
-5. Finalmente, se obtiene la última pantalla confirmando todos los detalles del paquete. Un aspecto importante de esta pantalla es que puede establecer dependencias para el paquete.
+ Cuando se instala un programa de esta forma, normalmente el proceso implica ejecutar `make install`. Sin embargo, este método tiene algunas desventajas, especialmente cuando se necesita actualizar o desinstalar ese programa. Aquí es donde CheckInstall puede ser de gran ayuda. En lugar de `make install`, se usa `checkinstall`, y esta herramienta se encarga del resto. CheckInstall rastrea los cambios en los archivos durante la instalación y genera paquetes binarios a partir de los tarballs. Con CheckInstall, se puede generar un paquete RPM, deb o Slackware que se puede portar entre sistemas para una fácil instalación y eliminación.
+  
+ Para usar CheckInstall, seguimos los siguientes pasos:
+1. Ejecutamos los comandos `./configure` y `make` como se hace normalmente para compilar el programa desde el código fuente.
+2. En lugar de `make install`, ejecutamos `checkinstall`.
+3. CheckInstall nos preguntó si queríamos crear un directorio para guardar alguna documentación que pueda ser necesaria para el empaquetado posterior. Aceptamos poniendo y (Sí) y continuamos.
+4. Luego, pidió una descripción que se vería en lugares como el campo Resumen al mostrar la información del paquete.
+5. Finalmente, obtuvimos la última pantalla confirmando todos los detalles del paquete. Un aspecto importante de esta pantalla es que puede establecer dependencias para el paquete.
 
 - *Uso de checkinstall para empaquetar un hello world*  
   Para realizar esto, vamos a utilizar el archivo llamado "Hello.c" y un "Makefile". Primero vamos a ejecutar `make` para que se realice todo lo que esta dentro del makefile, y luego `sudo checkinstall`. Al hacer esto obtenemos como resultado 3 archivos: **hello** , **description-pak**, y **arch_20240528-1_amd64.deb**  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/399c6e82-c48d-4758-b44a-9a68ffd4cf85)  
  ¿Qué es lo que hicimos?  
 En primer lugar compilamos el archivo hello.c y generamos un ejecutable llamado hello. Luego usamos un install: para instalar el programa en nuestro sistema. `install -m 755 hello /usr/local/bin/hello`, copiamos el ejecutable hello al directorio `/usr/local/bin` con permisos 755 (lo que significa que podemos leer, escribir y ejecutar, y otras personas sólo pueden leer y ejecutar). Luego ejecutamos `sudo checkinstall`, el cual, en lugar de simplemente copiar los archivos directamente al sistema como `make install`, crea un paquete de software compatible con nuestro sistema de gestión de paquetes (como DEB para Debian/Ubuntu, RPM para Fedora/RHEL, etc.) y luego instala ese paquete.  
+  
  Esto tiene varias ventajas:
 * Podemos desinstalar el paquete en cualquier momento utilizando nuestro sistema de gestión de paquetes (por ejemplo, apt, yum, dnf, etc.).
 * Podemos distribuir el paquete a otros sistemas de la misma arquitectura y sistema operativo y instalarlo allí.
@@ -103,8 +105,8 @@ Cabe mencionar que es necesiario tener privilegios de superusuario para ejecutar
 Se puede observar una gran cantidad de codigo,pero se adjunta una parte de el:  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5160cc42-e59b-4c16-8925-5a6072ccde86)  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/16163059-dbf5-45c2-873f-d82067884d97)  
- Al ejecutar el comando `sudo dmesg`, le estamos solicitando al sistema que muestre los mensajes del kernel1.  
-El comando `dmesg` se utiliza para examinar o controlar el buffer del anillo del kernel1. Este buffer contiene una gran variedad de mensajes importantes generados durante el arranque del sistema y durante la depuración de aplicaciones.
+ Al ejecutar el comando `sudo dmesg`, le estamos solicitando al sistema que muestre los mensajes del kernel.  
+El comando `dmesg` se utiliza para examinar o controlar el buffer del anillo del kernel. Este buffer contiene una gran variedad de mensajes importantes generados durante el arranque del sistema y durante la depuración de aplicaciones.
 Estos mensajes pueden incluir información sobre el hardware del sistema, los controladores de dispositivos y cualquier error que pueda haber ocurrido durante el arranque. También puede mostrar información en tiempo real cuando se conecta o desconecta un dispositivo de hardware utilizado.  
 En la primera imagen hay dos mensajes que sobresalen:  
 `mimodulo: module verification failed: signature and/or required key missing - tainting kernel`: Este mensaje indica que el módulo del kernel mimodulo no pudo ser verificado porque falta una firma y/o una clave requerida. Esto puede suceder cuando se intenta cargar un módulo que no está firmado con la misma clave que el kernel. Para resolver este problema, se puede firmar el módulo mimodulo.ko usando la herramienta `scripts/sign-file` en el árbol de código fuente del kernel y la clave privada especificada por la opción de tiempo de compilación `CONFIG_MODULE_SIG_KEY3`. Si esta opción no está establecida, se utilizará la clave autogenerada por defecto en `certs/signing_key.pem` en el árbol de código fuente del kernel.  
@@ -184,9 +186,9 @@ Cada campo de salida significa:
 `name`: Este es el nombre del módulo del kernel.  
 `vermagic`: Esta es una cadena que contiene la versión del kernel, el tipo de CPU, el estado de SMP (Symmetric MultiProcessing), y otras opciones que deben coincidir exactamente con el kernel en ejecución para que el módulo pueda ser cargado.  
 
-- Al ejecutar
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko `
-Se obtiene:
+- Al ejecutar  
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko `  
+Se obtiene:  
 ` filename:       /lib/modules/5.15.0-107-generic/kernel/crypto/des_generic.ko
 alias:          crypto-des3_ede-generic
 alias:          des3_ede-generic
@@ -234,49 +236,51 @@ signature:      8D:60:20:7C:EC:D7:FA:9A:EE:BC:83:20:32:9D:32:B1:2B:6B:A6:F8:
 		94:87:63:60:F6:FD:65:DD:C3:89:50:92:72:B7:CC:C6:2E:B5:70:1A:
 		1D:C8:03:D6:B0:41:2E:1C:9B:60:CB:C1:14:4F:C6:4D:75:99:DE:A7:
 		C9:38:13:81:C2:55:9A:F0:0D:29:EE:F6:01:5D:08:6C:B0:79:4E:57:
-		31:3E:EA:CF:86:5C:CF:68:B5:F0:30:0D `
+		31:3E:EA:CF:86:5C:CF:68:B5:F0:30:0D `  
 
-Muestra información sobre el módulo del kernel des_generic.ko. Aquí te explico cada campo de la salida:
-filename: Este es el nombre del archivo del módulo del kernel.
-alias: Estos son los alias del módulo del kernel. Los alias son nombres alternativos que se pueden usar para referirse al módulo.
-author: Este es el autor del módulo del kernel.
-description: Esta es una breve descripción del módulo del kernel.
-license: Esta es la licencia bajo la cual se distribuye el módulo del kernel.
-srcversion: Esta es la versión del código fuente del módulo del kernel.
-depends: Esta es una lista de otros módulos del kernel de los que depende este módulo.
-retpoline: Este campo indica si el módulo del kernel está compilado con protecciones Retpoline para mitigar la vulnerabilidad de ejecución especulativa del procesador.
-intree: Este campo indica si el módulo del kernel está incluido en el árbol de código fuente del kernel.
-name: Este es el nombre del módulo del kernel.
-vermagic: Esta es una cadena que contiene la versión del kernel, el tipo de CPU, el estado de SMP (Symmetric MultiProcessing), y otras opciones que deben coincidir exactamente con el kernel en ejecución para que el módulo pueda ser cargado.
-sig_id: Este campo indica el tipo de firma digital utilizada para firmar el módulo del kernel.
-signer: Este campo indica la entidad que firmó el módulo del kernel.
-sig_key: Esta es la clave pública utilizada para verificar la firma digital del módulo del kernel.
-sig_hashalgo: Este campo indica el algoritmo de hash utilizado para generar la firma digital del módulo del kernel.
-signature: Esta es la firma digital del módulo del kernel.
+Muestra información sobre el módulo del kernel des_generic.ko. Cada campo de la salida quiere decir:
+`filename`: Este es el nombre del archivo del módulo del kernel.  
+`alias`: Estos son los alias del módulo del kernel. Los alias son nombres alternativos que se pueden usar para referirse al módulo.  
+`author`: Este es el autor del módulo del kernel.  
+`description`: Esta es una breve descripción del módulo del kernel.
+`license`: Esta es la licencia bajo la cual se distribuye el módulo del kernel.  
+`srcversion`: Esta es la versión del código fuente del módulo del kernel.  
+`depends`: Esta es una lista de otros módulos del kernel de los que depende este módulo.  
+`retpoline`: Este campo indica si el módulo del kernel está compilado con protecciones Retpoline para mitigar la vulnerabilidad de ejecución especulativa del procesador.  
+`intree`: Este campo indica si el módulo del kernel está incluido en el árbol de código fuente del kernel.
+`name`: Este es el nombre del módulo del kernel.  
+`vermagic`: Esta es una cadena que contiene la versión del kernel, el tipo de CPU, el estado de SMP (Symmetric MultiProcessing), y otras opciones que deben coincidir exactamente con el kernel en ejecución para que el módulo pueda ser cargado.  
+`sig_id`: Este campo indica el tipo de firma digital utilizada para firmar el módulo del kernel.  
+`signer`: Este campo indica la entidad que firmó el módulo del kernel.  
+`sig_key`: Esta es la clave pública utilizada para verificar la firma digital del módulo del kernel.  
+`sig_hashalgo`: Este campo indica el algoritmo de hash utilizado para generar la firma digital del módulo del kernel.  
+`signature`: Esta es la firma digital del módulo del kernel.  
 
-### ¿Qué diferencias se pueden observar entre los dos modinfo ? 
-Las diferencias entre los dos comandos modinfo que has ejecutado son las siguientes:
-Módulo del kernel: El primer comando modinfo mimodulo.ko muestra información sobre el módulo del kernel personalizado mimodulo.ko, mientras que el segundo comando modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko muestra información sobre el módulo del kernel estándar des_generic.ko que se encuentra en la ruta /lib/modules/$(uname -r)/kernel/crypto/.
-Información del módulo: La información proporcionada por los dos comandos modinfo es diferente porque los dos módulos del kernel son diferentes. Por ejemplo, el autor, la descripción, la licencia, la versión del código fuente, las dependencias, el nombre y la firma digital del módulo son diferentes para mimodulo.ko y des_generic.ko.
-Dependencias del módulo: El módulo mimodulo.ko no tiene dependencias, mientras que el módulo des_generic.ko depende del módulo libdes.
-Alias del módulo: El módulo mimodulo.ko no tiene alias, mientras que el módulo des_generic.ko tiene varios alias.
-Firma digital del módulo: El módulo mimodulo.ko no tiene una firma digital, mientras que el módulo des_generic.ko tiene una firma digital.
+### ¿Qué diferencias se pueden observar entre los dos modinfo?  
+Las diferencias entre los dos comandos modinfo ejecutados son:  
+* Módulo del kernel: El primer comando `modinfo mimodulo.ko` muestra información sobre el módulo del kernel personalizado mimodulo.ko, mientras que el segundo comando `modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko` muestra información sobre el módulo del kernel estándar `des_generic.ko` que se encuentra en la ruta `/lib/modules/$(uname -r)/kernel/crypto/`.
+* Información del módulo: La información proporcionada por los dos comandos modinfo es diferente porque los dos módulos del kernel son diferentes. Por ejemplo, el autor, la descripción, la licencia, la versión del código fuente, las dependencias, el nombre y la firma digital del módulo son diferentes para `mimodulo.ko` y `des_generic.ko`.
+* Dependencias del módulo: El módulo `mimodulo.ko` no tiene dependencias, mientras que el módulo `des_generic.ko` depende del módulo `libdes`.
+* Alias del módulo: El módulo `mimodulo.ko` no tiene alias, mientras que el módulo `des_generic.ko` tiene varios alias.
+* Firma digital del módulo: El módulo `mimodulo.ko` no tiene una firma digital, mientras que el `módulo des_generic.ko` tiene una firma digital.
 
 ### ¿Qué drivers/modulos estan cargados en sus propias pc?
-Para ver esto se debe colocar el comando ` lsmod `.
-En la carpeta "ModulosIntegrantes" se encuentra un .txt por cada uno de los integrantes, con las salidas de sus pcs. con los comandos `diff GastonSegura.txt LourdesGuyot.txt > diffGS-LG.txt` y `diff GastonSegura.txt FedericaMayorga.txt > diffGS-FM.txt` obtenemos dos txt con las diferencias. Para entender un poco mas, se aclara que: Las líneas que comienzan con < representan líneas del primer archivo que no están en el segundo archivo y las líneas que comienzan con > representan líneas del segundo archivo que no están en el primer archivo. Vemos que en cuanto a las diferencias entre GS y LG:Hay varios módulos que están presentes en el primer conjunto pero no en el segundo,algunos de estos incluyen mimodulo, nft_chain_nat, xt_MASQUERADE, nf_nat, nf_conntrack_netlink, xfrm_user, xfrm_algo, br_netfilter, bridge, stp, llc, ccm, rfcomm, overlay, cmac, algif_hash, algif_skcipher, af_alg, bnep, ip6t_REJECT, nf_reject_ipv6, xt_hl, ip6_tables, ip6t_rt; Algunos módulos están presentes en ambos conjuntos, como binfmt_misc, zfs, zunicode, zzstd, zlua, zavl, icp, zcommon, znvpair, spl, intel_rapl_msr, snd_hda_codec_hdmi, snd_hda_codec_realtek, snd_hda_codec_generic.En cuanto a las diferencias entre GS y FM,módulos(algunos de ellos) que están presentes en el primer conjunto pero no en el segundo:snd_compress, ac97_bus, snd_pcm_dmaengine, snd_intel_dspcfg, snd_intel_sdw_acpi, intel_rapl_msr, intel_rapl_common, intel_pmc_bxt, intel_telemetry_pltdrv, mei_hdcp, intel_punit_ipc, intel_telemetry_core;Módulos presentes en ambos conjuntos(algunos de ellos):snd_hda_codec_hdmi, nls_iso8859_1, snd_hda_intel, intel_rapl_msr, snd_intel_dspcfg, snd_intel_sdw_acpi, snd_hda_codec, intel_rapl_common, snd_hda_core, snd_hwdep, snd_pcm.
+Para poder ver esto se debe ejecutar el comando ` lsmod `.  
+En la carpeta "ModulosIntegrantes" se encuentra un .txt por cada uno de los integrantes, con las salidas de sus pcs. con los comandos `diff GastonSegura.txt LourdesGuyot.txt > diffGS-LG.txt` y `diff GastonSegura.txt FedericaMayorga.txt > diffGS-FM.txt` obtenemos dos txt con las diferencias.  
+Para entender un poco mas, se aclara que: Las líneas que comienzan con **<** representan líneas del primer archivo que no están en el segundo archivo y las líneas que comienzan con **>** representan líneas del segundo archivo que no están en el primer archivo. Vemos que en cuanto a las diferencias entre GS y LG: Hay varios módulos que están presentes en el primer conjunto pero no en el segundo, algunos de estos incluyen `mimodulo, nft_chain_nat, xt_MASQUERADE, nf_nat, nf_conntrack_netlink, xfrm_user, xfrm_algo, br_netfilter, bridge, stp, llc, ccm, rfcomm, overlay, cmac, algif_hash, algif_skcipher, af_alg, bnep, ip6t_REJECT, nf_reject_ipv6, xt_hl, ip6_tables, ip6t_rt`; Algunos módulos están presentes en ambos conjuntos, como `binfmt_misc, zfs, zunicode, zzstd, zlua, zavl, icp, zcommon, znvpair, spl, intel_rapl_msr, snd_hda_codec_hdmi, snd_hda_codec_realtek, snd_hda_codec_generic`.  
+En cuanto a las diferencias entre GS y FM, hay algunos módulos que están presentes en el primer conjunto pero no en el segundo: `snd_compress, ac97_bus, snd_pcm_dmaengine, snd_intel_dspcfg, snd_intel_sdw_acpi, intel_rapl_msr, intel_rapl_common, intel_pmc_bxt, intel_telemetry_pltdrv, mei_hdcp, intel_punit_ipc, intel_telemetry_core`; y, algunos de los módulos presentes en ambos conjuntos: `snd_hda_codec_hdmi, nls_iso8859_1, snd_hda_intel, intel_rapl_msr, snd_intel_dspcfg, snd_intel_sdw_acpi, snd_hda_codec, intel_rapl_common, snd_hda_core, snd_hwdep, snd_pcm`.  
 
-### ¿cuales no están cargados pero están disponibles? que pasa cuando el driver de un dispositivo no está disponible.
-Para saber qué módulos del kernel están disponibles en tu sistema, puedes usar el comando ls -R /lib/modules/$(uname -r)
-Para saber qué módulos del kernel están actualmente cargados en tu sistema, puedes usar el comando lsmod
-Para realizar esta actividad se ha realizado un script de bash(llamado "scriptPreguntaCargNoDisp.sh") que encuentra cuales son los modulos estan disponibles pero no guardados.Este script da como resultado una enorme cantidad de modulos, se adjunta una captura de una pequeñisima parte de todo lo obtenido:
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/2299608c-d3eb-496c-84f9-c1bf4f73252d)
-Cuando el driver de un dispositivo no está disponible, pueden ocurrir varios problemas1:
-El dispositivo puede no ser reconocido por el sistema operativo, lo que significa que no podrás utilizarlo1.
-Puedes experimentar problemas de rendimiento, como una conexión de internet lenta, falta de calidad en el sonido o problemas de visualización en la pantalla1.
-Existen varias soluciones para resolver este problema:
-Actualizar el controlador del dispositivo: A veces, el problema puede ser causado porque el controlador del dispositivo no está actualizado2.
-Desinstalar y reinstalar el controlador: Si el controlador está dañado o no funciona correctamente, desinstalarlo y luego reinstalarlo puede resolver el problema3.
+### ¿Cuáles no están cargados pero están disponibles? ¿Qué pasa cuando el driver de un dispositivo no está disponible?.
+Para saber qué módulos del kernel están disponibles en cada sistema, se puede usar el comando `ls -R /lib/modules/$(uname -r)`  
+Para saber qué módulos del kernel están actualmente cargados en el sistema, se puede ejecutar el comando `lsmod` 
+Para realizar esta actividad se ha realizado un script de bash (llamado "scriptPreguntaCargNoDisp.sh") que encuentra cuales son los modulos estan disponibles pero no guardados. Este script da como resultado una enorme cantidad de módulos, se adjunta una captura de una pequeñisima parte de todo lo obtenido:  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/2299608c-d3eb-496c-84f9-c1bf4f73252d)  
+Cuando el driver de un dispositivo no está disponible, pueden ocurrir varios problemas:
+* El dispositivo puede no ser reconocido por el sistema operativo, lo que significa que no se puede utilizar.
+* Pueden surgir problemas de rendimiento, como una conexión de internet lenta, falta de calidad en el sonido o problemas de visualización en la pantalla.  
+Existen varias soluciones para resolver este problema: 
+* Actualizar el controlador del dispositivo: A veces, el problema puede ser causado porque el controlador del dispositivo no está actualizado.
+* Desinstalar y reinstalar el controlador: Si el controlador está dañado o no funciona correctamente, desinstalarlo y luego reinstalarlo puede resolver el problema.
 
 ### hwinfo 
 CONSIGNA: Correr hwinfo en una pc real con hw real y agregar la url de la información de hw en el reporte. 
