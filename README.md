@@ -82,7 +82,7 @@ https://docs.google.com/presentation/d/1BYES6Zkfx5K85REWyXsFeW-VngBLOzlDzaYCsTVo
 
 ## PASOS - RESOLUCION
 - En primer lugar ejecutamos make en la carpeta correspondiente:  
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ make `
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ make `  
 A partir de ejecutar este comando se generan los siguientes archivos:  
 ` make -C /lib/modules/5.15.0-107-generic/build M=/home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module modules  
 make[1]: se entra en el directorio '/usr/src/linux-headers-5.15.0-107-generic'  
@@ -95,75 +95,75 @@ Skipping BTF generation for /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practi
 - Luego insertamos:  
 ` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo insmod mimodulo.ko `  
 Al ejecutar el comando `sudo insmod mimodulo.ko`, se está insertando el módulo del kernel `mimodulo.ko` en el kernel de Linux. 
-El comando `insmod` es una herramienta que se utiliza para insertar módulos en el kernel de Linux. Los módulos del kernel son piezas de código que se pueden cargar y descargar en el kernel según sea necesario. Estos módulos ofrecen funciones esenciales, como soporte para hardware y sistemas de archivos, que el kernel utilizará solo si se solicitan o se necesitan.
-Cuando se ejecuta `sudo insmod mimodulo.ko`, está dando instrucciones al sistema para que cargue el módulo `mimodulo.ko` en el kernel. Este módulo ahora puede proporcionar funcionalidades adicionales al kernel.
+El comando `insmod` es una herramienta que se utiliza para insertar módulos en el kernel de Linux. Los módulos del kernel son piezas de código que se pueden cargar y descargar en el kernel según sea necesario. Estos módulos ofrecen funciones esenciales, como soporte para hardware y sistemas de archivos, que el kernel utilizará solo si se solicitan o se necesitan.  
+Cuando se ejecuta `sudo insmod mimodulo.ko`, se está dando instrucciones al sistema para que cargue el módulo `mimodulo.ko` en el kernel. Este módulo ahora puede proporcionar funcionalidades adicionales al kernel.
 Cabe mencionar que es necesiario tener privilegios de superusuario para ejecutar este comando, de ahí el uso de `sudo`. Esto se debe a que la manipulación de módulos del kernel puede afectar significativamente el funcionamiento del sistema.  
-- Al ejecutar:
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo dmesg `
-Se puede observar una gran cantidad de codigo,pero se adjunta una parte de el:
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5160cc42-e59b-4c16-8925-5a6072ccde86)
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/16163059-dbf5-45c2-873f-d82067884d97)
-Al ejecutar el comando sudo dmesg, estás solicitando al sistema que muestre los mensajes del kernel1.
-El comando dmesg se utiliza para examinar o controlar el buffer del anillo del kernel1. Este buffer contiene una gran variedad de mensajes importantes generados durante el arranque del sistema y durante la depuración de aplicaciones1.
-Estos mensajes pueden incluir información sobre el hardware del sistema, los controladores de dispositivos y cualquier error que pueda haber ocurrido durante el arranque1. También puede mostrar información en tiempo real cuando se conecta o desconecta un dispositivo de hardware1.
-En la primera imagen hay dos mensajes que sobresalen:
-mimodulo: module verification failed: signature and/or required key missing - tainting kernel: Este mensaje indica que el módulo del kernel mimodulo no pudo ser verificado porque falta una firma y/o una clave requerida2. Esto puede suceder cuando intentas cargar un módulo que no está firmado con la misma clave que el kernel3. Para resolver este problema, puedes intentar firmar el módulo mimodulo.ko usando la herramienta scripts/sign-file en el árbol de código fuente del kernel y la clave privada especificada por la opción de tiempo de compilación CONFIG_MODULE_SIG_KEY3. Si esta opción no está establecida, se utilizará la clave autogenerada por defecto en certs/signing_key.pem en el árbol de código fuente del kernel3.
-[UFW BLOCK] …: Estos mensajes son generados por el firewall UFW (Uncomplicated Firewall). UFW está bloqueando ciertos paquetes que están intentando pasar a través de tu interfaz de red4. Los detalles del mensaje te dan información sobre el paquete que fue bloqueado, incluyendo la interfaz de red (IN=wlp3s0), la dirección MAC de origen y destino, la dirección IP de origen y destino (SRC=192.168.0.1 DST=224.0.0.1), la longitud del paquete (LEN=32), entre otros4.
-En la segunda imagen podemos observar:
-wlp3s0: deauthenticating from 38:6b:1c:bd:4c:8c by local choice (Reason: 3=DEAUTH_LEAVING): Este mensaje indica que tu dispositivo de red inalámbrica (wlp3s0) se está desautenticando de la red con la dirección MAC 38:6b:1c:bd:4c:8c. La razón “3=DEAUTH_LEAVING” significa que la desautenticación se debe a que el cliente está dejando (o se desconecta de) la red1.  
-PM: suspend entry (deep): Este mensaje indica que tu sistema está entrando en un estado de suspensión profunda, también conocido como S3 o suspensión a RAM2.  
-Filesystems sync: 0.025 seconds: Este mensaje indica que el sistema ha sincronizado los sistemas de archivos, lo que significa que todos los datos pendientes se han escrito en el disco. Esto se hace generalmente antes de entrar en un estado de suspensión para asegurar que no se pierdan datos2.  
-Freezing user space processes … (elapsed 0.009 seconds) done.: Este mensaje indica que el sistema ha “congelado” los procesos del espacio de usuario como parte del proceso de suspensión. “Congelar” un proceso significa que se le impide ejecutar cualquier código adicional3.  
-OOM killer disabled.: Este mensaje indica que el “asesino de memoria insuficiente” (OOM killer) del kernel de Linux ha sido desactivado. El OOM killer es un mecanismo del kernel que se activa cuando el sistema se queda sin memoria. Su trabajo es seleccionar y matar procesos para liberar memoria2.  
-printk: Suspending console(s) (use no_console_suspend to debug): Este mensaje indica que las consolas del sistema están siendo suspendidas. Si quisieras depurar el proceso de suspensión, podrías usar la opción no_console_suspend4.
+- Al ejecutar:  
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo dmesg `  
+Se puede observar una gran cantidad de codigo,pero se adjunta una parte de el:  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5160cc42-e59b-4c16-8925-5a6072ccde86)  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/16163059-dbf5-45c2-873f-d82067884d97)  
+ Al ejecutar el comando `sudo dmesg`, le estamos solicitando al sistema que muestre los mensajes del kernel1.  
+El comando `dmesg` se utiliza para examinar o controlar el buffer del anillo del kernel1. Este buffer contiene una gran variedad de mensajes importantes generados durante el arranque del sistema y durante la depuración de aplicaciones.
+Estos mensajes pueden incluir información sobre el hardware del sistema, los controladores de dispositivos y cualquier error que pueda haber ocurrido durante el arranque. También puede mostrar información en tiempo real cuando se conecta o desconecta un dispositivo de hardware utilizado.  
+En la primera imagen hay dos mensajes que sobresalen:  
+`mimodulo: module verification failed: signature and/or required key missing - tainting kernel`: Este mensaje indica que el módulo del kernel mimodulo no pudo ser verificado porque falta una firma y/o una clave requerida. Esto puede suceder cuando se intenta cargar un módulo que no está firmado con la misma clave que el kernel. Para resolver este problema, se puede firmar el módulo mimodulo.ko usando la herramienta `scripts/sign-file` en el árbol de código fuente del kernel y la clave privada especificada por la opción de tiempo de compilación `CONFIG_MODULE_SIG_KEY3`. Si esta opción no está establecida, se utilizará la clave autogenerada por defecto en `certs/signing_key.pem` en el árbol de código fuente del kernel.  
+`[UFW BLOCK] …`: Estos mensajes son generados por el firewall UFW (Uncomplicated Firewall). UFW está bloqueando ciertos paquetes que están intentando pasar a través de la interfaz de red. Los detalles del mensaje te dan información sobre el paquete que fue bloqueado, incluyendo la interfaz de red (IN=wlp3s0), la dirección MAC de origen y destino, la dirección IP de origen y destino (SRC=192.168.0.1 DST=224.0.0.1), la longitud del paquete (LEN=32), entre otros.  
+En la segunda imagen podemos observar:  
+`wlp3s0: deauthenticating from 38:6b:1c:bd:4c:8c by local choice (Reason: 3=DEAUTH_LEAVING)`: Este mensaje indica que el dispositivo de red inalámbrica (wlp3s0) se está desautenticando de la red con la dirección MAC 38:6b:1c:bd:4c:8c. La razón “3=DEAUTH_LEAVING” significa que la desautenticación se debe a que el cliente está dejando (o se desconecta de) la red.  
+`PM: suspend entry (deep)`: Este mensaje indica que el sistema está entrando en un estado de suspensión profunda, también conocido como S3 o suspensión a RAM2.  
+`Filesystems sync: 0.025 seconds`: Este mensaje indica que el sistema ha sincronizado los sistemas de archivos, lo que significa que todos los datos pendientes se han escrito en el disco. Esto se hace generalmente antes de entrar en un estado de suspensión para asegurar que no se pierdan datos.  
+`Freezing user space processes … (elapsed 0.009 seconds) done.`: Este mensaje indica que el sistema ha “congelado” los procesos del espacio de usuario como parte del proceso de suspensión. “Congelar” un proceso significa que se le impide ejecutar cualquier código adicional.  
+`OOM killer disabled.`: Este mensaje indica que el “asesino de memoria insuficiente” (OOM killer) del kernel de Linux ha sido desactivado. El OOM killer es un mecanismo del kernel que se activa cuando el sistema se queda sin memoria. Su trabajo es seleccionar y matar procesos para liberar memoria.  
+`printk: Suspending console(s) (use no_console_suspend to debug)`: Este mensaje indica que las consolas del sistema están siendo suspendidas. Si se quisiera depurar el proceso de suspensión, se podría usar la opción `no_console_suspend`.  
   
-Otro comando que podemos ejecutar es:
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo dmesg | grep -i usb2 `
-El cual nos devuelve:
+Otro comando que podemos ejecutar es:  
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo dmesg | grep -i usb2 `  
+El cual nos devuelve:  
 ` [    3.512659] usb usb2: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 5.15
 [    3.512666] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
 [    3.512668] usb usb2: Product: xHCI Host Controller
 [    3.512670] usb usb2: Manufacturer: Linux 5.15.0-107-generic xhci-hcd
-[    3.512673] usb usb2: SerialNumber: 0000:00:15.0 `
-Sus respectivas explicaciones son:
-usb usb2: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 5.15: Este mensaje indica que se ha encontrado un nuevo dispositivo USB en el puerto usb21. Los campos idVendor y idProduct son identificadores numéricos que especifican el fabricante y el producto del dispositivo USB1. En este caso, idVendor=1d6b y idProduct=00031. El campo bcdDevice es la versión del dispositivo1.
-usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1: Este mensaje indica que el dispositivo USB tiene ciertos campos de cadena definidos1. Estos campos pueden proporcionar información adicional sobre el dispositivo en un formato legible por humanos1. En este caso, los campos definidos son Mfr (fabricante), Product (producto) y SerialNumber (número de serie)1.
-usb usb2: Product: xHCI Host Controller: Este mensaje indica que el producto del dispositivo USB es un controlador de host xHCI2. xHCI (eXtensible Host Controller Interface) es una interfaz para los controladores de host de dispositivos USB de versión 2.0 y superior2.
-usb usb2: Manufacturer: Linux 5.15.0-107-generic xhci-hcd: Este mensaje indica que el fabricante del dispositivo USB es el controlador de host xHCI del kernel de Linux 5.15.0-107-generic2.
-usb usb2: SerialNumber: 0000:00:15.0: Este mensaje indica que el número de serie del dispositivo USB es 0000:00:15.01.
+[    3.512673] usb usb2: SerialNumber: 0000:00:15.0 `  
+Sus respectivas explicaciones son:  
+`usb usb2: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 5.15`: Este mensaje indica que se ha encontrado un nuevo dispositivo USB en el puerto usb2. Los campos idVendor y idProduct son identificadores numéricos que especifican el fabricante y el producto del dispositivo USB1. En este caso, idVendor=1d6b y idProduct=00031. El campo bcdDevice es la versión del dispositivo.  
+`usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1`: Este mensaje indica que el dispositivo USB tiene ciertos campos de cadena definidos. Estos campos pueden proporcionar información adicional sobre el dispositivo en un formato legible por humanos. En este caso, los campos definidos son Mfr (fabricante), Product (producto) y SerialNumber (número de serie).  
+`usb usb2: Product: xHCI Host Controller`: Este mensaje indica que el producto del dispositivo USB es un controlador de host xHCI2. xHCI (eXtensible Host Controller Interface) es una interfaz para los controladores de host de dispositivos USB de versión 2.0 y superior.  
+`usb usb2: Manufacturer: Linux 5.15.0-107-generic xhci-hcd`: Este mensaje indica que el fabricante del dispositivo USB es el controlador de host xHCI del kernel de Linux 5.15.0-107-generic.  
+`usb usb2: SerialNumber: 0000:00:15.0`: Este mensaje indica que el número de serie del dispositivo USB es 0000:00:15.0.  
 
-- A continuacion al ejecutar:
+- A continuacion al ejecutar:  
 ` lsmod | grep mod `
-obtenemos: mimodulo               16384  0
-El comando lsmod que has ejecutado muestra todos los módulos del kernel que están actualmente cargados en tu sistema. La opción | grep mod filtra la salida para mostrar solo las líneas que contienen la cadena “mod”.
-En tu caso, la salida indica que el módulo del kernel mimodulo está cargado en tu sistema. El número 16384 representa el tamaño del módulo en bytes. El último número 0 indica que ningún otro módulo depende de mimodulo.
-- Si ejecutamos
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ cat /proc/modules  | grep mod `
-retorna:
-` mimodulo 16384 0 - Live 0x0000000000000000 (OE) `
+obtenemos: mimodulo               16384  0  
+El comando lsmod muestra todos los módulos del kernel que están actualmente cargados en el sistema. La opción `| grep mod` filtra la salida para mostrar solo las líneas que contienen la cadena “mod”.
+En este caso, la salida indica que el módulo del kernel mimodulo está cargado en el sistema. El número 16384 representa el tamaño del módulo en bytes. El último número 0 indica que ningún otro módulo depende de mimodulo.  
+- Si ejecutamos  
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ cat /proc/modules  | grep mod `  
+retorna:  
+` mimodulo 16384 0 - Live 0x0000000000000000 (OE) `  
 
-muestra información sobre los módulos del kernel que están actualmente cargados en tu sistema y que contienen la cadena “mod” en su nombre1.
-En tu caso, la salida indica que el módulo del kernel mimodulo está cargado en tu sistema. Aquí te explico cada campo de la salida:
-mimodulo: Este es el nombre del módulo del kernel1.
-16384: Este es el tamaño del módulo en bytes1.
-0: Este es el número de instancias del módulo que están actualmente cargadas1. Un valor de 0 significa que el módulo está cargado pero no se está utilizando1.
-Live: Este campo indica el estado del módulo1. “Live” significa que el módulo está activo y en funcionamiento1.
-0x0000000000000000: Esta es la dirección de memoria donde se carga el módulo1.
-(OE): Estas son las banderas del módulo1. “O” significa que el módulo es oficial (es decir, que forma parte del kernel oficial de Linux) y “E” significa que el módulo está en un estado de error1.
+Esto muestra información sobre los módulos del kernel que están actualmente cargados en el sistema y que contienen la cadena “mod” en su nombre.
+La salida indica que el módulo del kernel mimodulo está cargado en el sistema. Cada campo de la salida indica:  
+`mimodulo`: Este es el nombre del módulo del kernel.  
+`16384`: Este es el tamaño del módulo en bytes.  
+`0`: Este es el número de instancias del módulo que están actualmente cargadas. Un valor de 0 significa que el módulo está cargado pero no se está utilizando.  
+`Live`: Este campo indica el estado del módulo. “Live” significa que el módulo está activo y en funcionamiento.  
+`0x0000000000000000`: Esta es la dirección de memoria donde se carga el módulo.  
+`(OE)`: Estas son las banderas del módulo. “O” significa que el módulo es oficial (es decir, que forma parte del kernel oficial de Linux) y “E” significa que el módulo está en un estado de error.  
 
-- finalmente ejecutamos:
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo rmmod mimodulo `
-El comando sudo rmmod mimodulo se utiliza para eliminar el módulo del kernel mimodulo.
-Cuando ejecutas sudo rmmod mimodulo, estás dando instrucciones al sistema para que descargue el módulo mimodulo del kernel1. Esto significa que las funcionalidades proporcionadas por este módulo ya no estarán disponibles para el kernel1.
-- Ahora al ejecutar
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ lsmod | grep mod `
-o tambien
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ cat /proc/modules  | grep mod `
-no nos devuelven nada ya que en el paso anterior borramos el modulo
+- Finalmente ejecutamos:  
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo rmmod mimodulo `  
+El comando `sudo rmmod mimodulo` se utiliza para eliminar el módulo del kernel mimodulo.
+Cuando ejecutamos sudo rmmod mimodulo, le damos instrucciones al sistema para que descargue el módulo mimodulo del kernel. Esto significa que las funcionalidades proporcionadas por este módulo ya no estarán disponibles para el kernel.  
+- Ahora al ejecutar  
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ lsmod | grep mod `  
+o tambien  
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ cat /proc/modules  | grep mod `  
+no nos devuelven nada ya que en el paso anterior borramos el modulo  
 
-- con los comandos
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ modinfo mimodulo.ko `
-obtenemos
+- Con los comandos  
+` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ modinfo mimodulo.ko `  
+obtenemos  
 ` filename:       /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko
 author:         Catedra de SdeC
 description:    Primer modulo ejemplo
@@ -172,18 +172,17 @@ srcversion:     C6390D617B2101FB1B600A9
 depends:        
 retpoline:      Y
 name:           mimodulo
-vermagic:       5.15.0-107-generic SMP mod_unload modversions `
-Cada campo de salida significa:
-cada campo de la salida:
-filename: Este es el nombre del archivo del módulo del kernel.
-author: Este es el autor del módulo del kernel.
-description: Esta es una breve descripción del módulo del kernel.
-license: Esta es la licencia bajo la cual se distribuye el módulo del kernel.
-srcversion: Esta es la versión del código fuente del módulo del kernel.
-depends: Esta es una lista de otros módulos del kernel de los que depende este módulo.
-retpoline: Este campo indica si el módulo del kernel está compilado con protecciones Retpoline para mitigar la vulnerabilidad de ejecución especulativa del procesador.
-name: Este es el nombre del módulo del kernel.
-vermagic: Esta es una cadena que contiene la versión del kernel, el tipo de CPU, el estado de SMP (Symmetric MultiProcessing), y otras opciones que deben coincidir exactamente con el kernel en ejecución para que el módulo pueda ser cargado.
+vermagic:       5.15.0-107-generic SMP mod_unload modversions `  
+Cada campo de salida significa:  
+`filename`: Este es el nombre del archivo del módulo del kernel.  
+`author`: Este es el autor del módulo del kernel.  
+`description`: Esta es una breve descripción del módulo del kernel.  
+`license`: Esta es la licencia bajo la cual se distribuye el módulo del kernel.  
+`srcversion`: Esta es la versión del código fuente del módulo del kernel.  
+`depends`: Esta es una lista de otros módulos del kernel de los que depende este módulo.  
+`retpoline`: Este campo indica si el módulo del kernel está compilado con protecciones Retpoline para mitigar la vulnerabilidad de ejecución especulativa del procesador.  
+`name`: Este es el nombre del módulo del kernel.  
+`vermagic`: Esta es una cadena que contiene la versión del kernel, el tipo de CPU, el estado de SMP (Symmetric MultiProcessing), y otras opciones que deben coincidir exactamente con el kernel en ejecución para que el módulo pueda ser cargado.  
 
 - Al ejecutar
 ` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko `
