@@ -40,7 +40,7 @@ En primer lugar compilamos el archivo hello.c y generamos un ejecutable llamado 
 * Podemos distribuir el paquete a otros sistemas de la misma arquitectura y sistema operativo y instalarlo allí.
 * Obtenemos un registro de los archivos que se instalaron y dónde se instalaron.  
   
-- Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados:  
+ Revisar la bibliografía para impulsar acciones que permitan mejorar la seguridad del kernel, concretamente: evitando cargar módulos que no estén firmados: 
    A continuacion mencionaremos algunas medidas de seguridad para esto:
 * SELinux/AppArmor: se puede configurar y activar SELinux o AppArmor para aplicar políticas de control de acceso que restrinjan las operaciones de los procesos y módulos del kernel.
 * Auditoría y Monitoreo: se implementa herramientas de auditoría como auditd para monitorear y registrar eventos críticos relacionados con el kernel y los módulos.
@@ -62,9 +62,9 @@ RESPUESTAS
   Un módulo del kernel, por otro lado, se ejecuta en el espacio del kernel y tiene acceso a las funciones internas del kernel y a las interfaces de hardware. Esto incluye funciones para interactuar con los controladores de dispositivos, manipular estructuras de datos del kernel, registrar controladores de interrupciones, y más. Sin embargo, un programa no puede acceder directamente al hardware ni a las regiones de memoria del kernel.
   
 - *Espacio de usuario o espacio del kernel:*   El espacio del kernel se refiere a la memoria que el kernel del sistema operativo tiene reservada para su funcionamiento. Aquí es donde el kernel mantiene sus estructuras de datos y ejecuta código de nivel de sistema operativo. En contraste, el espacio de usuario es la memoria reservada para la ejecución de aplicaciones y procesos del usuario. El kernel protege su espacio de memoria para evitar que los procesos del usuario interfieran con su funcionamiento.  
-- *Espacio de datos:* Es una región de memoria asignada por el sistema operativo para almacenar las variables y los datos de ejecución de un programa. Cuando un programa se ejecuta, el sistema operativo crea un espacio de datos para ese programa donde puede almacenar sus variables y otros datos.  
+- *Espacio de datos:*   Es una región de memoria asignada por el sistema operativo para almacenar las variables y los datos de ejecución de un programa. Cuando un programa se ejecuta, el sistema operativo crea un espacio de datos para ese programa donde puede almacenar sus variables y otros datos.  
 - *Drivers*  
-   Device driver (controlador de dispositivo) es una clase de modulo que proporciona funcionalidad para hardware como un puerto serie. En Unix, cada pieza de hardware está representada por un archivo ubicado en /dev llamado device file (archivo de dispositivo) que proporciona los medios para comunicarse con el hardware1. El controlador de dispositivo proporciona la comunicación en nombre de un programa de usuario1. Esto significa que los controladores de dispositivos actúan como un traductor entre el hardware y los programas o sistemas operativos que lo utilizan1. Permiten que el software interactúe con el hardware sin necesidad de saber cómo funciona el hardware. Con el comando ` ls /dev ` podemos listar todos los archivos en el directorio, por ejemplo al ejecutar ` ls -l /dev/sda ` se obtiene ` brw-rw---- 1 root disk 8, 0 may 27 17:26 /dev/sda ` : 
+   Device driver (o controlador de dispositivo) es una clase de modulo que proporciona funcionalidad para hardware como un puerto serie. En Unix, cada pieza de hardware está representada por un archivo ubicado en /dev llamado device file (archivo de dispositivo) que proporciona los medios para comunicarse con el hardware1. El controlador de dispositivo proporciona la comunicación en nombre de un programa de usuario. Esto significa que los controladores de dispositivos actúan como un traductor entre el hardware y los programas o sistemas operativos que lo utilizan. Permiten que el software interactúe con el hardware sin necesidad de saber cómo funciona el hardware. Con el comando ` ls /dev ` podemos listar todos los archivos en el directorio, por ejemplo al ejecutar ` ls -l /dev/sda ` se obtiene ` brw-rw---- 1 root disk 8, 0 may 27 17:26 /dev/sda ` : 
 `brw-rw----:` Estos son los permisos del archivo. El primer carácter **b** indica que /dev/sda es un archivo de dispositivo de bloque. Los siguientes nueve caracteres representan los permisos del archivo para el propietario, el grupo y otros, respectivamente. En este caso, **rw-** significa que el propietario tiene permisos de lectura y escritura, **rw-** significa que el grupo tiene permisos de lectura y escritura, y **---** significa que otros no tienen permisos.
 `1:` Este es el número de enlaces al archivo. Para los archivos de dispositivo, esto generalmente será 1.
 `root disk:` Estos son el propietario y el grupo del archivo, respectivamente. En este caso, el propietario es root y el grupo es disk.
@@ -114,10 +114,10 @@ En la primera imagen hay dos mensajes que sobresalen:
 En la segunda imagen podemos observar:  
 `wlp3s0: deauthenticating from 38:6b:1c:bd:4c:8c by local choice (Reason: 3=DEAUTH_LEAVING)`: Este mensaje indica que el dispositivo de red inalámbrica (wlp3s0) se está desautenticando de la red con la dirección MAC 38:6b:1c:bd:4c:8c. La razón “3=DEAUTH_LEAVING” significa que la desautenticación se debe a que el cliente está dejando (o se desconecta de) la red.  
 `PM: suspend entry (deep)`: Este mensaje indica que el sistema está entrando en un estado de suspensión profunda, también conocido como S3 o suspensión a RAM2.  
-`Filesystems sync: 0.025 seconds`: Este mensaje indica que el sistema ha sincronizado los sistemas de archivos, lo que significa que todos los datos pendientes se han escrito en el disco. Esto se hace generalmente antes de entrar en un estado de suspensión para asegurar que no se pierdan datos.  
-`Freezing user space processes … (elapsed 0.009 seconds) done.`: Este mensaje indica que el sistema ha “congelado” los procesos del espacio de usuario como parte del proceso de suspensión. “Congelar” un proceso significa que se le impide ejecutar cualquier código adicional.  
+`Filesystems sync: 0.025 seconds`: Este mensaje indica que el sistema ha sincronizado los sistemas de archivos, es decir, que todos los datos pendientes se han escrito en el disco. Esto se hace generalmente antes de entrar en un estado de suspensión para asegurar que no se pierdan datos.  
+`Freezing user space processes … (elapsed 0.009 seconds) done.`: Esto quiere decir que el sistema ha “congelado” los procesos del espacio de usuario como parte del proceso de suspensión. “Congelar” un proceso significa que se le impide ejecutar cualquier código adicional.  
 `OOM killer disabled.`: Este mensaje indica que el “asesino de memoria insuficiente” (OOM killer) del kernel de Linux ha sido desactivado. El OOM killer es un mecanismo del kernel que se activa cuando el sistema se queda sin memoria. Su trabajo es seleccionar y matar procesos para liberar memoria.  
-`printk: Suspending console(s) (use no_console_suspend to debug)`: Este mensaje indica que las consolas del sistema están siendo suspendidas. Si se quisiera depurar el proceso de suspensión, se podría usar la opción `no_console_suspend`.  
+`printk: Suspending console(s) (use no_console_suspend to debug)`: Esto nos indica que las consolas del sistema están siendo suspendidas. Si se quisiera depurar el proceso de suspensión, se podría usar la opción `no_console_suspend`.  
   
 Otro comando que podemos ejecutar es:  
 ` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo dmesg | grep -i usb2 `  
@@ -127,25 +127,25 @@ El cual nos devuelve:
 [    3.512668] usb usb2: Product: xHCI Host Controller
 [    3.512670] usb usb2: Manufacturer: Linux 5.15.0-107-generic xhci-hcd
 [    3.512673] usb usb2: SerialNumber: 0000:00:15.0 `  
-Sus respectivas explicaciones son:  
-`usb usb2: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 5.15`: Este mensaje indica que se ha encontrado un nuevo dispositivo USB en el puerto usb2. Los campos idVendor y idProduct son identificadores numéricos que especifican el fabricante y el producto del dispositivo USB1. En este caso, idVendor=1d6b y idProduct=00031. El campo bcdDevice es la versión del dispositivo.  
+Y las respectivas explicaciones de cada línea son:  
+`usb usb2: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 5.15`: aquí se indica que se ha encontrado un nuevo dispositivo USB en el puerto usb2. Los campos idVendor y idProduct son identificadores numéricos que especifican el fabricante y el producto del dispositivo USB. En este caso, idVendor=1d6b y idProduct=00031. El campo bcdDevice es la versión del dispositivo.  
 `usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1`: Este mensaje indica que el dispositivo USB tiene ciertos campos de cadena definidos. Estos campos pueden proporcionar información adicional sobre el dispositivo en un formato legible por humanos. En este caso, los campos definidos son Mfr (fabricante), Product (producto) y SerialNumber (número de serie).  
-`usb usb2: Product: xHCI Host Controller`: Este mensaje indica que el producto del dispositivo USB es un controlador de host xHCI2. xHCI (eXtensible Host Controller Interface) es una interfaz para los controladores de host de dispositivos USB de versión 2.0 y superior.  
-`usb usb2: Manufacturer: Linux 5.15.0-107-generic xhci-hcd`: Este mensaje indica que el fabricante del dispositivo USB es el controlador de host xHCI del kernel de Linux 5.15.0-107-generic.  
-`usb usb2: SerialNumber: 0000:00:15.0`: Este mensaje indica que el número de serie del dispositivo USB es 0000:00:15.0.  
+`usb usb2: Product: xHCI Host Controller`: Esta línea refiere a que el producto del dispositivo USB es un controlador de host xHCI. xHCI (eXtensible Host Controller Interface) es una interfaz para los controladores de host de dispositivos USB de versión 2.0 y superior.  
+`usb usb2: Manufacturer: Linux 5.15.0-107-generic xhci-hcd`: nos dice que el fabricante del dispositivo USB es el controlador de host xHCI del kernel de Linux 5.15.0-107-generic.  
+`usb usb2: SerialNumber: 0000:00:15.0`: con esto sabemos que el número de serie del dispositivo USB es 0000:00:15.0.  
 
 - A continuacion al ejecutar:  
 ` lsmod | grep mod `
 obtenemos: mimodulo               16384  0  
 El comando lsmod muestra todos los módulos del kernel que están actualmente cargados en el sistema. La opción `| grep mod` filtra la salida para mostrar solo las líneas que contienen la cadena “mod”.
-En este caso, la salida indica que el módulo del kernel mimodulo está cargado en el sistema. El número 16384 representa el tamaño del módulo en bytes. El último número 0 indica que ningún otro módulo depende de mimodulo.  
+En este caso, la salida refiere a que el módulo del kernel mimodulo está cargado en el sistema. El número 16384 representa el tamaño del módulo en bytes. El último número 0 indica que ningún otro módulo depende de mimodulo.  
 - Si ejecutamos  
 ` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ cat /proc/modules  | grep mod `  
 retorna:  
 ` mimodulo 16384 0 - Live 0x0000000000000000 (OE) `  
 
 Esto muestra información sobre los módulos del kernel que están actualmente cargados en el sistema y que contienen la cadena “mod” en su nombre.
-La salida indica que el módulo del kernel mimodulo está cargado en el sistema. Cada campo de la salida indica:  
+El módulo del kernel mimodulo está cargado en el sistema. Cada campo de la salida quiere decir:  
 `mimodulo`: Este es el nombre del módulo del kernel.  
 `16384`: Este es el tamaño del módulo en bytes.  
 `0`: Este es el número de instancias del módulo que están actualmente cargadas. Un valor de 0 significa que el módulo está cargado pero no se está utilizando.  
@@ -176,15 +176,15 @@ retpoline:      Y
 name:           mimodulo
 vermagic:       5.15.0-107-generic SMP mod_unload modversions `  
 Cada campo de salida significa:  
-`filename`: Este es el nombre del archivo del módulo del kernel.  
-`author`: Este es el autor del módulo del kernel.  
+`filename`: el nombre del archivo del módulo del kernel.  
+`author`: el autor del módulo del kernel.  
 `description`: Esta es una breve descripción del módulo del kernel.  
 `license`: Esta es la licencia bajo la cual se distribuye el módulo del kernel.  
-`srcversion`: Esta es la versión del código fuente del módulo del kernel.  
+`srcversion`: la versión del código fuente del módulo del kernel.  
 `depends`: Esta es una lista de otros módulos del kernel de los que depende este módulo.  
 `retpoline`: Este campo indica si el módulo del kernel está compilado con protecciones Retpoline para mitigar la vulnerabilidad de ejecución especulativa del procesador.  
-`name`: Este es el nombre del módulo del kernel.  
-`vermagic`: Esta es una cadena que contiene la versión del kernel, el tipo de CPU, el estado de SMP (Symmetric MultiProcessing), y otras opciones que deben coincidir exactamente con el kernel en ejecución para que el módulo pueda ser cargado.  
+`name`: el nombre del módulo del kernel.  
+`vermagic`: cadena que contiene la versión del kernel, el tipo de CPU, el estado de SMP (Symmetric MultiProcessing), y otras opciones que deben coincidir exactamente con el kernel en ejecución para que el módulo pueda ser cargado.  
 
 - Al ejecutar  
 ` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko `  
@@ -239,8 +239,8 @@ signature:      8D:60:20:7C:EC:D7:FA:9A:EE:BC:83:20:32:9D:32:B1:2B:6B:A6:F8:
 		31:3E:EA:CF:86:5C:CF:68:B5:F0:30:0D `  
 
 Muestra información sobre el módulo del kernel des_generic.ko. Cada campo de la salida quiere decir:
-`filename`: Este es el nombre del archivo del módulo del kernel.  
-`alias`: Estos son los alias del módulo del kernel. Los alias son nombres alternativos que se pueden usar para referirse al módulo.  
+`filename`: el nombre del archivo del módulo del kernel.  
+`alias`: los alias del módulo del kernel. Los alias son nombres alternativos que se pueden usar para referirse al módulo.  
 `author`: Este es el autor del módulo del kernel.  
 `description`: Esta es una breve descripción del módulo del kernel.
 `license`: Esta es la licencia bajo la cual se distribuye el módulo del kernel.  
@@ -257,8 +257,8 @@ Muestra información sobre el módulo del kernel des_generic.ko. Cada campo de l
 `signature`: Esta es la firma digital del módulo del kernel.  
 
 ### ¿Qué diferencias se pueden observar entre los dos modinfo?  
-Las diferencias entre los dos comandos modinfo ejecutados son:  
-* Módulo del kernel: El primer comando `modinfo mimodulo.ko` muestra información sobre el módulo del kernel personalizado mimodulo.ko, mientras que el segundo comando `modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko` muestra información sobre el módulo del kernel estándar `des_generic.ko` que se encuentra en la ruta `/lib/modules/$(uname -r)/kernel/crypto/`.
+Las diferencias observadas entre los dos comandos modinfo ejecutados son:  
+* Módulo del kernel: El primer comando `modinfo mimodulo.ko` muestra información sobre el módulo del kernel personalizado mimodulo.ko, mientras que el segundo comando `modinfo /lib/modules/$(uname -r)/kernel/crypto/des_generic.ko` nos da la información sobre el módulo del kernel estándar `des_generic.ko` que se encuentra en la ruta `/lib/modules/$(uname -r)/kernel/crypto/`.
 * Información del módulo: La información proporcionada por los dos comandos modinfo es diferente porque los dos módulos del kernel son diferentes. Por ejemplo, el autor, la descripción, la licencia, la versión del código fuente, las dependencias, el nombre y la firma digital del módulo son diferentes para `mimodulo.ko` y `des_generic.ko`.
 * Dependencias del módulo: El módulo `mimodulo.ko` no tiene dependencias, mientras que el módulo `des_generic.ko` depende del módulo `libdes`.
 * Alias del módulo: El módulo `mimodulo.ko` no tiene alias, mientras que el módulo `des_generic.ko` tiene varios alias.
@@ -273,7 +273,7 @@ En cuanto a las diferencias entre GS y FM, hay algunos módulos que están prese
 ### ¿Cuáles no están cargados pero están disponibles? ¿Qué pasa cuando el driver de un dispositivo no está disponible?.
 Para saber qué módulos del kernel están disponibles en cada sistema, se puede usar el comando `ls -R /lib/modules/$(uname -r)`  
 Para saber qué módulos del kernel están actualmente cargados en el sistema, se puede ejecutar el comando `lsmod` 
-Para realizar esta actividad se ha realizado un script de bash (llamado "scriptPreguntaCargNoDisp.sh") que encuentra cuales son los modulos estan disponibles pero no guardados. Este script da como resultado una enorme cantidad de módulos, se adjunta una captura de una pequeñisima parte de todo lo obtenido:  
+Para realizar esta actividad se ha realizado un script de bash (llamado "scriptPreguntaCargNoDisp.sh") que encuentra cuales son los modulos están disponibles pero no guardados. Este script da como resultado una enorme cantidad de módulos, se adjunta una captura de una pequeñisima parte de todo lo obtenido:  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/2299608c-d3eb-496c-84f9-c1bf4f73252d)  
 Cuando el driver de un dispositivo no está disponible, pueden ocurrir varios problemas:
 * El dispositivo puede no ser reconocido por el sistema operativo, lo que significa que no se puede utilizar.
@@ -284,7 +284,7 @@ Existen varias soluciones para resolver este problema:
 
 ### hwinfo 
 CONSIGNA: Correr hwinfo en una pc real con hw real y agregar la url de la información de hw en el reporte.  
-En primer lugar, realizamos la instalacion con el comando `sudo apt install hwinfo` , luego ejecutamos `hwinfo`. Como nos devuelve mucha informacion, hacemos `hwinfo > hwinfo.txt` para almacenarla y verla de una mejor manera.
+En primer lugar, realizamos la instalación con el comando `sudo apt install hwinfo` , luego ejecutamos `hwinfo`. Como nos devuelve mucha información, hacemos `hwinfo > hwinfo.txt` para almacenarla y verla de una mejor manera.
 Este txt es subido al drive como lo pide la consigna, aqui el link: [hwinfo.txt](https://drive.google.com/file/d/1Fl7qJL2dBHWLC2pBckQbaIGVLtf-Twwj/view?usp=drive_link)  
 hwinfo es una herramienta de línea de comandos muy útil para obtener detalles sobre los componentes de hardware del sistema. Se utiliza para sondear el hardware presente en el sistema. Puede generar un registro de descripción general del sistema que luego puede ser utilizado para soporte.  
 Muestra información sobre la mayoría de las unidades de hardware, incluyendo CPU, RAM, tarjetas gráficas, controladores USB, entre otros. Además, hwinfo puede ser usado con varios parámetros de línea de comandos para crear informes de hardware en varios formatos como texto, CSV, XML.
@@ -315,13 +315,13 @@ Cómo lo maneja el kernel: Cuando ocurre un Segmentation Fault, el sistema opera
 
 Cómo lo maneja un programa: Desde el punto de vista del programa, un Segmentation Fault generalmente resulta en que el programa se detenga inmediatamente y se genere un informe de error. Los programadores pueden utilizar herramientas de depuración, como gdb, para examinar el estado del programa en el momento del error y determinar qué parte del código causó el problema.
 
-### firmar un módulo de kernel
+### Firmar un módulo de kernel
 ¿Se animan a intentar firmar un módulo de kernel y documentar el proceso?  
 https://askubuntu.com/questions/770205/how-to-sign-kernel-modules-with-sign-file  
 Agregar evidencia de la compilación, carga y descarga de su propio módulo imprimiendo el nombre del equipo en los registros del kernel. 
 
 - En primerlugar instalamos los modulos: openssl , sign-file , mokutil y keyctl  
-- Luego vamos a Generar un par de claves X.509, ya que son Necesarias una clave privada para firmar el módulo y una clave pública para verificar la firma. Para ello utilizando OpenSSL, vamos a seguir estos pasos:
+- Luego vamos a Generar un par de claves X.509, ya que son necesarias una clave privada para firmar el módulo y una clave pública para verificar la firma. Para ello utilizando OpenSSL, vamos a seguir estos pasos:
   1- Generar una clave privada: La clave privada se utiliza para firmar el módulo. Podemos generar una clave privada RSA de 2048 bits con el siguiente comando:`openssl genrsa -out private.key 2048`
   2- Crear un certificado X.509: El certificado X.509 contiene la clave pública y se utiliza para verificar la firma. Creamos un certificado X.509 que sea válido por 365 días con el siguiente comando: `openssl req -new -x509 -key private.key -out publickey.cer -days 365`. Este comando nos pide ingresar información que se incorporará en a la solicitud de certificado. Tuvimos proporcionar detalles como el nombre de país (código de 2 letras), el nombre de la provincia, el nombre de localidad, el nombre de organización, el nombre de una unidad organizativa, el nombre propio y dirección de correo electrónico.  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/fe0a2391-ca90-4f73-89bc-3b12fec8c5cb)  
@@ -332,19 +332,19 @@ luego `openssl x509 -in publickey.cer -text -noout` para Verificar el certificad
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/d72fe4c9-4b38-4419-ad9f-8808e4af0251)  
 y por ultimo `openssl x509 -in publickey.cer -noout -pubkey openssl rsa -in private.key -pubout` para verificar la correspondencia entre la clave privada y el certificado: La clave pública contenida en la clave privada y el certificado debe ser la misma, lo cual se verifica al observar que ambos comandos deben producen la misma salida.  
 
-- El tercer paso es Firma el módulo: Usar la herramienta sign-file que viene con el código fuente del kernel para firmar el módulo. Proporcionamos la clave privada, la clave pública y el módulo del kernel con el que etsmaos trabajando.  
-  1- en primer lugar se Ubica la herramienta sign-file: La herramienta sign-file se encuentra en el directorio scripts/ del código fuente del kernel de Linux. En la mayoría de los sistemas, se encuentra en `/usr/src/linux-headers-$(uname -r)/scripts/`  
+- El tercer paso es firmar el módulo: Usar la herramienta sign-file que viene con el código fuente del kernel para firmar el módulo. Proporcionamos la clave privada, la clave pública y el módulo del kernel con el que estamos trabajando.  
+  1- en primer lugar se ubica la herramienta sign-file: La herramienta sign-file se encuentra en el directorio scripts/ del código fuente del kernel de Linux. En la mayoría de los sistemas, se encuentra en `/usr/src/linux-headers-$(uname -r)/scripts/`  
   ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/aa7ef802-4554-4f75-bc3d-64a298c7981f)  
   2- Se procede a firmar el módulo del kernel: Firmamos el módulo del kernel utilizando el siguiente comando: `sudo /usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 private.key publickey.cer /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko` (sha256 es el algoritmo de hash que se utiliza para la firma, private.key es la clave privada, publickey.cer es la clave pública y mimodulo.ko es el módulo del kernel que deseamos firmar). "mimodulo.ko" es el modulo que forkeamos al inicio. Para verificar que se realizó de forma correcta la firma del modulo, usamos el comando modinfo. Este comando muestra información sobre un módulo del kernel Linux: `modinfo /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko`  
   ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/17962672-0a2b-4e8b-9e47-cf6e86513558)  
 
-- El cuarto paso es cargar la clave pública en el sistema objetivo: Para que el kernel pueda verificar la firma del módulo, cargamos la clave pública en el sistema. Esto se hace con la herramienta mokutil
+- El cuarto paso es cargar la clave pública en el sistema objetivo: Para que el kernel pueda verificar la firma del módulo, cargamos la clave pública en el sistema. Esto se hace con la herramienta mokuti
   1- Asegurándonos de que el sistema esté utilizando el arranque seguro UEFI: verificamos esto con el comando `efibootmgr -v`: luego de realizamos este paso y, al obtener algunas respuestas erróneas, se descubre que en el sistema utilizado para realizar este ejercicio, no se inicia en modo UEFI, por lo tanto este paso no es necesario. En este caso, se pueden firmar los módulos y el sistema los reconoce como seguros, aunque la seguridad proporcionada será menor en comparación con un sistema con UEFI Secure Boot habilitado.  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/0b6ba79e-eb0c-485c-907e-e13636a4336f)  
  Entonces lo que se realizan son estos pasos:  
-  - Copia el módulo firmado al directorio apropiado: Por lo general, los módulos del kernel se almacenan en el directorio `/lib/modules/$(uname -r)/kernel/`. Copiamos el módulo firmado a este directorio o a un subdirectorio apropiado dentro de él:  
+  - Copiamos el módulo firmado al directorio apropiado: Por lo general, los módulos del kernel se almacenan en el directorio `/lib/modules/$(uname -r)/kernel/`. Copiamos el módulo firmado a este directorio o a un subdirectorio apropiado dentro de él:  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5d30dbd0-567f-411d-92e6-3b8c92b2a145)  
-luego al realizar el copiado del modulo:  
+Luego, al realizar el copiado del modulo:  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5db4b713-9e2b-436f-8f0e-5b23ac6f00ce)  
 - siguiente paso: Registrar el módulo con depmod: depmod es una utilidad que genera un archivo de dependencias para los módulos del kernel. Podemos usarlo para registrar el módulo firmado con el sistema. Entonces ejecutamos:  `gaston@gaston-Lenovo-ideapad-320-14IAP:/lib/modules/5.15.0-107-generic/kernel$ sudo depmod -a`  
 - el ultimo paso es: Cargar el módulo con modprobe o insmod: modprobe y insmod son utilidades que se usan para cargar módulos en el kernel1modprobe es generalmente preferible porque maneja las dependencias del módulo automáticamente.  
@@ -360,7 +360,7 @@ Copy code
 sudo /usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 MOK.priv MOK.der /path/to/module.ko`  
 
 
-### secure boot 
+### Secure boot 
 - ¿Qué pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mí? 
 Secure Boot es una característica de seguridad que verifica que cada pieza de software tiene una firma válida antes de permitir que se ejecute. Esto incluye el sistema operativo, los controladores de dispositivos y los módulos del kernel.
 Si un compañero tiene Secure Boot habilitado e intenta cargar un módulo firmado por mí, el resultado dependerá de si la clave pública correspondiente a mi firma privada ha sido añadida al almacén de claves del sistema en mi computadora.
