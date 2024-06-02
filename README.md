@@ -283,25 +283,25 @@ Existen varias soluciones para resolver este problema:
 * Desinstalar y reinstalar el controlador: Si el controlador está dañado o no funciona correctamente, desinstalarlo y luego reinstalarlo puede resolver el problema.
 
 ### hwinfo 
-CONSIGNA: Correr hwinfo en una pc real con hw real y agregar la url de la información de hw en el reporte. 
+CONSIGNA: Correr hwinfo en una pc real con hw real y agregar la url de la información de hw en el reporte.  
 En primer lugar, realizamos la instalacion con el comando `sudo apt install hwinfo` , luego ejecutamos `hwinfo`. Como nos devuelve mucha informacion, hacemos `hwinfo > hwinfo.txt` para almacenarla y verla de una mejor manera.
-Este txt es subido al drive como lo pide la consigna, aqui el link: [hwinfo.txt](https://drive.google.com/file/d/1Fl7qJL2dBHWLC2pBckQbaIGVLtf-Twwj/view?usp=drive_link)
-hwinfo es una herramienta de línea de comandos muy útil para obtener detalles sobre los componentes de hardware de tu sistema1. Se utiliza para sondear el hardware presente en el sistema2. Puede generar un registro de descripción general del sistema que luego puede ser utilizado para soporte2.
-Muestra información sobre la mayoría de las unidades de hardware, incluyendo CPU, RAM, tarjetas gráficas, controladores USB, entre otros1. Además, hwinfo puede ser usado con varios parámetros de línea de comandos para crear informes de hardware en varios formatos como texto, CSV, XML.
+Este txt es subido al drive como lo pide la consigna, aqui el link: [hwinfo.txt](https://drive.google.com/file/d/1Fl7qJL2dBHWLC2pBckQbaIGVLtf-Twwj/view?usp=drive_link)  
+hwinfo es una herramienta de línea de comandos muy útil para obtener detalles sobre los componentes de hardware del sistema. Se utiliza para sondear el hardware presente en el sistema. Puede generar un registro de descripción general del sistema que luego puede ser utilizado para soporte.  
+Muestra información sobre la mayoría de las unidades de hardware, incluyendo CPU, RAM, tarjetas gráficas, controladores USB, entre otros. Además, hwinfo puede ser usado con varios parámetros de línea de comandos para crear informes de hardware en varios formatos como texto, CSV, XML.
 
 ### ¿Qué diferencia existe entre un módulo y un programa? 
-Las diferencias que podemos notas son las siguiente:
-- Función: Un programa es una aplicación que se ejecuta en el sistema operativo para realizar una tarea específica, como procesar texto o navegar por la web. Por otro lado, un módulo es un componente de software que realiza una función específica dentro de un sistema mayor12. Por ejemplo, un driver es un tipo de módulo que permite que el sistema operativo se comunique con un dispositivo de hardware3.
-- Interacción con el sistema operativo: Los programas invocan funciones específicas del sistema operativo para realizar sus tareas. En cambio, los módulos, como los drivers, son invocados por el sistema operativo para interactuar con el hardware3.
-- Ubicación en el sistema: Los programas suelen estar almacenados en el disco duro y se cargan en la memoria cuando se ejecutan. Los módulos, por otro lado, pueden ser cargados y descargados dinámicamente en el sistema, de manera que solo están activos en memoria cuando se les necesita12.
--Reutilización de código: En la programación modular, los módulos permiten reutilizar código y compartir funciones entre programas12. En cambio, aunque un programa puede contener funciones reutilizables, es una entidad independiente que se ejecuta para realizar una tarea específica.
+Las diferencias que podemos notar son las siguiente:
+- Función: Un programa es una aplicación que se ejecuta en el sistema operativo para realizar una tarea específica, como procesar texto o navegar por la web. Por otro lado, un módulo es un componente de software que realiza una función específica dentro de un sistema mayor. Por ejemplo, un driver es un tipo de módulo que permite que el sistema operativo se comunique con un dispositivo de hardware.
+- Interacción con el sistema operativo: Los programas invocan funciones específicas del sistema operativo para realizar sus tareas. En cambio, los módulos, como los drivers, son invocados por el sistema operativo para interactuar con el hardware.
+- Ubicación en el sistema: Los programas suelen estar almacenados en el disco duro y se cargan en la memoria cuando se ejecutan. Los módulos, por otro lado, pueden ser cargados y descargados dinámicamente en el sistema, de manera que solo están activos en memoria cuando se les necesita.
+-Reutilización de código: En la programación modular, los módulos permiten reutilizar código y compartir funciones entre programas. En cambio, aunque un programa puede contener funciones reutilizables, es una entidad independiente que se ejecuta para realizar una tarea específica.
 
 ### ¿Cómo puede ver una lista de las llamadas al sistema que realiza un simple helloworld en c? 
-Para esto, primero creamos un archivo que se llama "HelloWorld.c" , luego ejecutamos ` gcc -Wall -o hello hello.c `. Al archivo "hello" que obtenemos como resultado, lo ejecutamos con los comandos: ` strace ./hello `. Nos devuelve bastante codigo(se almacena en el repositorio en un archivo llamado "SyscallsHello.txt"), en el cual cada línea que se ve corresponde a una llamada al sistema.` Strace ` es un programa útil que le brinda detalles sobre qué llamadas al sistema realiza un programa, incluida qué llamada se realiza, cuáles son sus argumentos y qué devuelve. 
-En la penulta linea de codigo del archivo podemos observar un: ` write(1, "hello world", 11hello world)             = 11 ` que es lo que esta detras del "printf("hello world")" que se ve en el programa de C
+Para esto, primero creamos un archivo que se llama "HelloWorld.c" , luego ejecutamos ` gcc -Wall -o hello hello.c `. Al archivo "hello" que obtenemos como resultado, lo ejecutamos con los comandos: ` strace ./hello `. Nos devuelve bastante código (se almacena en el repositorio en un archivo llamado "SyscallsHello.txt"), en el cual cada línea que se ve corresponde a una llamada al sistema.` Strace ` es un programa útil que le brinda detalles sobre qué llamadas al sistema realiza un programa, incluida qué llamada se realiza, cuáles son sus argumentos y qué devuelve. 
+En la penúltima linea de codigo del archivo podemos observar un: ` write(1, "hello world", 11hello world)             = 11 ` que es lo que está detrás del "printf("hello world")" que se ve en el programa de C.
 
-### ¿Que es un segmentation fault? como lo maneja el kernel y como lo hace un programa?
-Cuando se ejecuta el programa y el sistema de informes de su sistema lanza una "violación de segmentación", significa que su programa ha intentado acceder a un área de memoria a la cual no le está permitido el acceso. En otras palabras, se trató de acceder a una parte de la memoria que está más allá de los límites que el sistema operativo (Unix GNU/Linux ect) ha asignado para su programa.
+### ¿Qué es un segmentation fault? ¿Cómo lo maneja el kernel y cómo lo hace un programa?
+Cuando se ejecuta el programa y el sistema de informes del sistema lanza una "violación de segmentación", significa que el programa ha intentado acceder a un área de memoria a la cual no le está permitido el acceso. En otras palabras, se trató de acceder a una parte de la memoria que está más allá de los límites que el sistema operativo (Unix GNU/Linux ect) ha asignado para el programa.
 Algunas causas comunes de este problema son:
 - El uso incorrecto de los operadores "&" (dirección/address of) y "*" (indireccion/dereferencing)
 - Cadena de control de formato incorrecto en declaraciones printf o scanf
@@ -311,58 +311,58 @@ Algunas causas comunes de este problema son:
 - Tratar de acceder a una parte de la memoria de manera inadecuada aún estando accesible para su programa.
 - Intentar acceder a un objeto o variable que ha sido borrado de la memoria
 
-Cómo lo maneja el kernel: Cuando ocurre un Segmentation Fault, el sistema operativo recibe una interrupción del hardware2. El kernel del sistema operativo debe determinar la causa del error y si se puede hacer algo al respecto2. En algunos casos, como las referencias a punteros nulos, lo mejor que puede hacer el kernel es informar a la aplicación que ha ocurrido un error2.
+Cómo lo maneja el kernel: Cuando ocurre un Segmentation Fault, el sistema operativo recibe una interrupción del hardware. El kernel del sistema operativo debe determinar la causa del error y si se puede hacer algo al respecto. En algunos casos, como las referencias a punteros nulos, lo mejor que puede hacer el kernel es informar a la aplicación que ha ocurrido un error.
 
-Cómo lo maneja un programa: Desde el punto de vista del programa, un Segmentation Fault generalmente resulta en que el programa se detenga inmediatamente y se genere un informe de error1. Los programadores pueden utilizar herramientas de depuración, como gdb, para examinar el estado del programa en el momento del error y determinar qué parte del código causó el problema3.
+Cómo lo maneja un programa: Desde el punto de vista del programa, un Segmentation Fault generalmente resulta en que el programa se detenga inmediatamente y se genere un informe de error. Los programadores pueden utilizar herramientas de depuración, como gdb, para examinar el estado del programa en el momento del error y determinar qué parte del código causó el problema.
 
 ### firmar un módulo de kernel
-¿Se animan a intentar firmar un módulo de kernel ? y documentar el proceso ?  
-https://askubuntu.com/questions/770205/how-to-sign-kernel-modules-with-sign-file
+¿Se animan a intentar firmar un módulo de kernel y documentar el proceso?  
+https://askubuntu.com/questions/770205/how-to-sign-kernel-modules-with-sign-file  
 Agregar evidencia de la compilación, carga y descarga de su propio módulo imprimiendo el nombre del equipo en los registros del kernel. 
 
-- En primerlugar instalamos los modulos: openssl , sign-file , mokutil y keyctl
+- En primerlugar instalamos los modulos: openssl , sign-file , mokutil y keyctl  
 - Luego vamos a Generar un par de claves X.509, ya que son Necesarias una clave privada para firmar el módulo y una clave pública para verificar la firma. Para ello utilizando OpenSSL, vamos a seguir estos pasos:
-  1- Genera una clave privada: La clave privada se utiliza para firmar el módulo. Puedes generar una clave privada RSA de 2048 bits con el siguiente comando:`openssl genrsa -out private.key 2048`
-  2- Crea un certificado X.509: El certificado X.509 contiene tu clave pública y se utiliza para verificar la firma. Puedes crear un certificado X.509 que sea válido por 365 días con el siguiente comando: `openssl req -new -x509 -key private.key -out publickey.cer -days 365`. Este comando te pedirá que ingreses información que se incorporará en tu solicitud de certificado. Deberás proporcionar detalles como el nombre de tu país (código de 2 letras), el nombre de tu estado o provincia, el nombre de tu localidad (por ejemplo, ciudad), el nombre de tu organización (por ejemplo, empresa), el nombre de tu unidad organizativa (por ejemplo, sección), el nombre común (por ejemplo, el nombre de dominio completamente calificado de tu servidor o tu nombre) y tu dirección de correo electrónico.
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/fe0a2391-ca90-4f73-89bc-3b12fec8c5cb)
-Para verificar que los dos pasos se realizaron correctamente, ejecutamos primero `openssl rsa -check -in private.key` para verificar la validez de la clave privada.
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/90ec884a-9031-4fff-b5cc-903f0141b741)
-luego `openssl x509 -in publickey.cer -text -noout` para Verificar el certificado X.509
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/c0979bb4-7101-480e-9675-a27b4d1e60db)
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/d72fe4c9-4b38-4419-ad9f-8808e4af0251)
-y por ultimo `openssl x509 -in publickey.cer -noout -pubkey openssl rsa -in private.key -pubout` para Verificar la correspondencia entre la clave privada y el certificado: La clave pública contenida en la clave privada y el certificado debe ser la misma, lo cual se verifica al observar que Ambos comandos deben producen la misma salida.
+  1- Generar una clave privada: La clave privada se utiliza para firmar el módulo. Podemos generar una clave privada RSA de 2048 bits con el siguiente comando:`openssl genrsa -out private.key 2048`
+  2- Crear un certificado X.509: El certificado X.509 contiene la clave pública y se utiliza para verificar la firma. Creamos un certificado X.509 que sea válido por 365 días con el siguiente comando: `openssl req -new -x509 -key private.key -out publickey.cer -days 365`. Este comando nos pide ingresar información que se incorporará en a la solicitud de certificado. Tuvimos proporcionar detalles como el nombre de país (código de 2 letras), el nombre de la provincia, el nombre de localidad, el nombre de organización, el nombre de una unidad organizativa, el nombre propio y dirección de correo electrónico.  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/fe0a2391-ca90-4f73-89bc-3b12fec8c5cb)  
+Para verificar que los dos pasos se realizaron correctamente, ejecutamos primero `openssl rsa -check -in private.key` para verificar la validez de la clave privada.  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/90ec884a-9031-4fff-b5cc-903f0141b741)  
+luego `openssl x509 -in publickey.cer -text -noout` para Verificar el certificado X.509  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/c0979bb4-7101-480e-9675-a27b4d1e60db)  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/d72fe4c9-4b38-4419-ad9f-8808e4af0251)  
+y por ultimo `openssl x509 -in publickey.cer -noout -pubkey openssl rsa -in private.key -pubout` para verificar la correspondencia entre la clave privada y el certificado: La clave pública contenida en la clave privada y el certificado debe ser la misma, lo cual se verifica al observar que ambos comandos deben producen la misma salida.  
 
-- El tercer paso es Firma el módulo: Usa la herramienta sign-file que viene con el código fuente del kernel para firmar el módulo. Necesitarás proporcionar la clave privada, la clave pública y el módulo del kernel que deseas firmar
-  1- en primer lugar se Ubica la herramienta sign-file: La herramienta sign-file se encuentra en el directorio scripts/ del código fuente del kernel de Linux1. En la mayoría de los sistemas, puedes encontrarla en /usr/src/linux-headers-$(uname -r)/scripts/
-  ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/aa7ef802-4554-4f75-bc3d-64a298c7981f)
-  2- Se procede a Firmar el módulo del kernel: Puedes firmar el módulo del kernel utilizando el siguiente comando: `sudo /usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 private.key publickey.cer /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko` (sha256 es el algoritmo de hash que se utiliza para la firma, private.key es tu clave privada, publickey.cer es tu clave pública y mimodulo.ko es el módulo del kernel que deseas firmar). "mimodulo.ko" es el modulo que forkeamos al inicio. Para verificar que se realizo de forma correcta la firma del modulo, puedes usar el comando modinfo. Este comando muestra información sobre un módulo del kernel Linux: `modinfo /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko`
-  ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/17962672-0a2b-4e8b-9e47-cf6e86513558)
+- El tercer paso es Firma el módulo: Usar la herramienta sign-file que viene con el código fuente del kernel para firmar el módulo. Proporcionamos la clave privada, la clave pública y el módulo del kernel con el que etsmaos trabajando.  
+  1- en primer lugar se Ubica la herramienta sign-file: La herramienta sign-file se encuentra en el directorio scripts/ del código fuente del kernel de Linux. En la mayoría de los sistemas, se encuentra en `/usr/src/linux-headers-$(uname -r)/scripts/`  
+  ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/aa7ef802-4554-4f75-bc3d-64a298c7981f)  
+  2- Se procede a firmar el módulo del kernel: Firmamos el módulo del kernel utilizando el siguiente comando: `sudo /usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 private.key publickey.cer /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko` (sha256 es el algoritmo de hash que se utiliza para la firma, private.key es la clave privada, publickey.cer es la clave pública y mimodulo.ko es el módulo del kernel que deseamos firmar). "mimodulo.ko" es el modulo que forkeamos al inicio. Para verificar que se realizó de forma correcta la firma del modulo, usamos el comando modinfo. Este comando muestra información sobre un módulo del kernel Linux: `modinfo /home/gaston/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module/mimodulo.ko`  
+  ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/17962672-0a2b-4e8b-9e47-cf6e86513558)  
 
-- El cuarto paso es Carga la clave pública en el sistema objetivo: Para que el kernel pueda verificar la firma del módulo, necesitas cargar la clave pública en el sistema. Puedes hacer esto con la herramienta mokutil
-  1- Asegúrate de que tu sistema esté utilizando el arranque seguro UEFI: Puedes verificar esto con el comando `efibootmgr -v`: luego de realizar este paso y al obtener algunas respuestas erroneas, se descubre que en el sistema utilizado para realizar este ejercicio, su sistema operativo no se inicia en modo UEFI, por lo tanto este paso no es necesario. En este caso, se pueden firmar los módulos y el sistema los reconocerá como seguros, aunque la seguridad proporcionada será menor en comparación con un sistema con UEFI Secure Boot habilitado.
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/0b6ba79e-eb0c-485c-907e-e13636a4336f)
- Entonces lo que se realizan son estos pasos:
-  - Copia el módulo firmado al directorio apropiado: Por lo general, los módulos del kernel se almacenan en el directorio /lib/modules/$(uname -r)/kernel/. Deberías copiar tu módulo firmado a este directorio o a un subdirectorio apropiado dentro de él:
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5d30dbd0-567f-411d-92e6-3b8c92b2a145)
-luego al realizar el copiado del modulo:
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5db4b713-9e2b-436f-8f0e-5b23ac6f00ce)
-- siguiente paso:Registra el módulo con depmod: depmod es una utilidad que genera un archivo de dependencias para los módulos del kernel. Puedes usarlo para registrar tu módulo firmado con el sistema1. entonce ejecutamos:`gaston@gaston-Lenovo-ideapad-320-14IAP:/lib/modules/5.15.0-107-generic/kernel$ sudo depmod -a`
-- el ultimo paso es:Carga el módulo con modprobe o insmod: modprobe y insmod son utilidades que puedes usar para cargar módulos en el kernel1modprobe es generalmente preferible porque maneja las dependencias del módulo automáticamente
-- Para verificar si el modulo se cargo correctamente usamos lsmod y modinfo
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/9cdba381-7e7c-4138-aa06-86350ede40a9)
+- El cuarto paso es cargar la clave pública en el sistema objetivo: Para que el kernel pueda verificar la firma del módulo, cargamos la clave pública en el sistema. Esto se hace con la herramienta mokutil
+  1- Asegurándonos de que el sistema esté utilizando el arranque seguro UEFI: verificamos esto con el comando `efibootmgr -v`: luego de realizamos este paso y, al obtener algunas respuestas erróneas, se descubre que en el sistema utilizado para realizar este ejercicio, no se inicia en modo UEFI, por lo tanto este paso no es necesario. En este caso, se pueden firmar los módulos y el sistema los reconoce como seguros, aunque la seguridad proporcionada será menor en comparación con un sistema con UEFI Secure Boot habilitado.  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/0b6ba79e-eb0c-485c-907e-e13636a4336f)  
+ Entonces lo que se realizan son estos pasos:  
+  - Copia el módulo firmado al directorio apropiado: Por lo general, los módulos del kernel se almacenan en el directorio `/lib/modules/$(uname -r)/kernel/`. Copiamos el módulo firmado a este directorio o a un subdirectorio apropiado dentro de él:  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5d30dbd0-567f-411d-92e6-3b8c92b2a145)  
+luego al realizar el copiado del modulo:  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5db4b713-9e2b-436f-8f0e-5b23ac6f00ce)  
+- siguiente paso: Registrar el módulo con depmod: depmod es una utilidad que genera un archivo de dependencias para los módulos del kernel. Podemos usarlo para registrar el módulo firmado con el sistema. Entonces ejecutamos:  `gaston@gaston-Lenovo-ideapad-320-14IAP:/lib/modules/5.15.0-107-generic/kernel$ sudo depmod -a`  
+- el ultimo paso es: Cargar el módulo con modprobe o insmod: modprobe y insmod son utilidades que se usan para cargar módulos en el kernel1modprobe es generalmente preferible porque maneja las dependencias del módulo automáticamente.  
+- Para verificar si el modulo se cargo correctamente usamos lsmod y modinfo  
+![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/9cdba381-7e7c-4138-aa06-86350ede40a9)  
 
 
 4- Firmar los Módulos del Kernel:
 Una vez inscritas las claves, los módulos del kernel deben ser firmados usando la clave privada.
 Ejemplo de firma de un módulo:
-sh
+`sh
 Copy code
-sudo /usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 MOK.priv MOK.der /path/to/module.ko
+sudo /usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 MOK.priv MOK.der /path/to/module.ko`  
 
 
 ### secure boot 
-- ¿Que pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mi? 
-Secure Boot es una característica de seguridad que verifica que cada pieza de software tiene una firma válida antes de permitir que se ejecute3. Esto incluye el sistema operativo, los controladores de dispositivos y los módulos del kernel3.
-Si tu compañero tiene Secure Boot habilitado e intenta cargar un módulo firmado por ti, el resultado dependerá de si la clave pública correspondiente a tu firma privada ha sido añadida al almacén de claves del sistema en su máquina12.
-Si tu compañero intenta cargar un módulo firmado por ti, pero tu clave pública no ha sido añadida a su almacén de claves, el módulo no se cargará12. Esto se debe a que Secure Boot no puede verificar la firma del módulo12.
-Para que tu compañero pueda cargar el módulo firmado por ti, tendrías que proporcionarle tu clave pública12. Tu compañero tendría que añadir esta clave a su almacén de claves utilizando una herramienta como ` mokutil `. Una vez que tu clave pública esté en su almacén de claves, Secure Boot podrá verificar la firma de tu módulo y permitir que se cargue12.
+- ¿Qué pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mí? 
+Secure Boot es una característica de seguridad que verifica que cada pieza de software tiene una firma válida antes de permitir que se ejecute. Esto incluye el sistema operativo, los controladores de dispositivos y los módulos del kernel.
+Si un compañero tiene Secure Boot habilitado e intenta cargar un módulo firmado por mí, el resultado dependerá de si la clave pública correspondiente a mi firma privada ha sido añadida al almacén de claves del sistema en mi computadora.
+Si un compañero intenta cargar un módulo firmado por mí, pero mi clave pública no ha sido añadida a su almacén de claves, el módulo no se cargará. Esto se debe a que Secure Boot no puede verificar la firma del módulo.
+Para que un compañero pueda cargar el módulo firmado por mí, tendría que proporcionarle mi clave pública. EL compañero tendría que añadir esta clave a su almacén de claves utilizando una herramienta como ` mokutil `. Una vez que mi clave pública esté en su almacén de claves, Secure Boot podrá verificar la firma del módulo y permitir que se cargue.
