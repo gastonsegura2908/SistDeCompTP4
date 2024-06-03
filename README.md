@@ -100,10 +100,6 @@ Al ejecutar el comando `sudo insmod mimodulo.ko`, se está insertando el módulo
 El comando `insmod` es una herramienta que se utiliza para insertar módulos en el kernel de Linux. Los módulos del kernel son piezas de código que se pueden cargar y descargar en el kernel según sea necesario. Estos módulos ofrecen funciones esenciales, como soporte para hardware y sistemas de archivos, que el kernel utilizará solo si se solicitan o se necesitan.  
 Cuando se ejecuta `sudo insmod mimodulo.ko`, se está dando instrucciones al sistema para que cargue el módulo `mimodulo.ko` en el kernel. Este módulo ahora puede proporcionar funcionalidades adicionales al kernel.
 Cabe mencionar que es necesiario tener privilegios de superusuario para ejecutar este comando, de ahí el uso de `sudo`. Esto se debe a que la manipulación de módulos del kernel puede afectar significativamente el funcionamiento del sistema.  
-- Al ejecutar:  
-` ~/Documentos/SdC_Proyectos/TP4_SdC_Practico/kenel-modules-tp-4/part1/module$ sudo dmesg `  
-Se puede observar una gran cantidad de codigo,pero se adjunta una parte de el:  
-![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/5160cc42-e59b-4c16-8925-5a6072ccde86)  
 ![image](https://github.com/gastonsegura2908/SistDeCompTP4/assets/54334534/16163059-dbf5-45c2-873f-d82067884d97)  
  Al ejecutar el comando `sudo dmesg`, le estamos solicitando al sistema que muestre los mensajes del kernel.  
 El comando `dmesg` se utiliza para examinar o controlar el buffer del anillo del kernel. Este buffer contiene una gran variedad de mensajes importantes generados durante el arranque del sistema y durante la depuración de aplicaciones.
